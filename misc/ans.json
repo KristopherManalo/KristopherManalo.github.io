@@ -1,0 +1,8 @@
+{
+    "servers": [
+        {
+            "name": "krisp",
+            "address": "https://anisette-v3-server-lq4l.onrender.com/"
+        }
+    ]
+}
