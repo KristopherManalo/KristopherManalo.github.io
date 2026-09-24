@@ -23,7 +23,7 @@
                 body: JSON.stringify({ userClick: true })
             })
             .then(response => {
-                if (!reponse.ok) {
+                if (!response.ok) {
                     throw new Error('Network did not respond :(');
                 }
                 return response.json();
