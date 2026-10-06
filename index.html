@@ -1,41 +1,43 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Location</title>    
+  <title>Location</title>    
+  <link rel="stylesheet" href="styles.css">
+  <script src="components/header.js" defer></script>
 </head>
 <body>
-    <p1>Kristopher Manalo</p1>
-    <button id="fetchBtn">test</button>
-    <p id="result"></p>
+  <main-header></main-header>
+  <button id="fetchBtn">test</button>
+  <p id="result"></p>
 
-    <script>
-        document.getElementById("fetchBtn").addEventListener("click", () => {
-            const resultParagraph = document.getElementById('result');
-            resultParagraph.innerText = "getting owo";
+  <script>
+    document.getElementById("fetchBtn").addEventListener("click", () => {
+      const resultParagraph = document.getElementById('result');
+      resultParagraph.innerText = "getting owo";
 
-            const url = "https://27irlz5j37nkz2pnm4j2f52ely0inpth.lambda-url.us-east-2.on.aws/";
+        const url = "https://27irlz5j37nkz2pnm4j2f52ely0inpth.lambda-url.us-east-2.on.aws/";
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userClick: true })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network did not respond :(');
-                }
-                return response.json();
-            })
-            .then(data => {
-                resultParagraph.innerText = data.message
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                resultParagraph.innerText = "Failed to communicate with backend.";
-            });
+        fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ userClick: true })
+        })
+        .then(response => {
+          if (!response.ok) {
+              throw new Error('Network did not respond :(');
+          }
+          return response.json();
+        })
+        .then(data => {
+          resultParagraph.innerText = data.message
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          resultParagraph.innerText = "Failed to communicate with backend D:";
         });
-    </script>
+      });
+  </script>
 </body>
 </html>
