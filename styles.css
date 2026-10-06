@@ -107,6 +107,26 @@ header {
   color: white;
 }
 
+/* Brutalist Form Styles */
+.brutalist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.brutalist-form input {
+  border: 2px solid black;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background: white;
+}
+
+.brutalist-form input:focus {
+  outline: none;
+  border-color: Plum;
+}
+
 /* AWS Analytics Tracking */
 .aws-analytics {
   display: none; /* Hidden by default, enable when needed */
