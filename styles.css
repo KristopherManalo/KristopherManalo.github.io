@@ -80,3 +80,56 @@ header {
   box-sizing: border-box;
 }
 
+/* Brutalist Design Utilities */
+.brutalist-grid {
+  border: 2px solid black;
+  padding: 1rem;
+}
+
+.brutalist-heading {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.brutalist-button {
+  border: 2px solid black;
+  background: white;
+  padding: 1rem 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.brutalist-button:hover {
+  background: black;
+  color: white;
+}
+
+/* AWS Analytics Tracking */
+.aws-analytics {
+  display: none; /* Hidden by default, enable when needed */
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .name {
+    color: black !important;
+  }
+  
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: black !important;
+  }
+}
+
+/* Print Styles for Brutalist Clarity */
+@media print {
+  header {
+    border-bottom: 2px solid black;
+  }
+  
+  .dropdown-content {
+    display: none;
+  }
+}

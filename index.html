@@ -1,9 +1,29 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Location</title>    
   <link rel="stylesheet" href="styles.css">
   <script src="components/header.js" defer></script>
+  
+  <!-- AWS S3 Bucket Configuration -->
+  <meta name="aws-s3-bucket" content="your-static-assets-bucket-name">
+  <meta name="aws-cloudfront-distribution" content="your-cloudfront-id">
+  <meta name="aws-region" content="us-east-1">
+  
+  <!-- Analytics for AWS CloudWatch -->
+  <script>
+    // Track page views to CloudWatch (optional)
+    if (window.location.hostname === 'localhost') {
+      console.log('Running locally - analytics disabled');
+    } else {
+      // Enable when connected to production S3 bucket
+      // const analytics = new AWS.CloudWatch({ region: 'us-east-1' });
+      // analytics.putMetricData({
+      //   Namespace: 'MySite',
+      //   MetricData: [{ MetricName: 'PageView', Value: 1, Unit: 'Count' }]
+      // }).catch(console.error);
+    }
+  </script>
 </head>
 <body>
   <main-header></main-header>
