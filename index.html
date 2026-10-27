@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Location</title>    
+  <title>Location</title>
   <link rel="stylesheet" href="styles.css">
   <script src="components/header.js" defer></script>
-  
-  
+
+
 </head>
 <body>
   <main-header></main-header>
-  
+
   <button id="fetchBtn">test</button>
   <p id="result"></p>
 
   <script>
     document.getElementById("fetchBtn").addEventListener("click", () => {
       const resultParagraph = document.getElementById('result');
-      resultParagraph.innerText = "getting owo";
+      resultParagraph.innerText = "sending instruction count owo";
 
         const url = "https://27irlz5j37nkz2pnm4j2f52ely0inpth.lambda-url.us-east-2.on.aws/";
+
+        const instructionsExecuted = 42;
 
         fetch(url, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ userClick: true })
+          body: JSON.stringify({ 
+            instructionsExecuted: instructionsExecuted
+          })
         })
         .then(response => {
           if (!response.ok) {
@@ -34,7 +38,8 @@
           return response.json();
         })
         .then(data => {
-          resultParagraph.innerText = data.message
+          resultParagraph.innerText = 'Added ${instructionsExecuted} instructions! ' +
+          'Global total: ${data.total.toLocaleString()}';
         })
         .catch(error => {
           console.error("Error:", error);
