@@ -38,8 +38,9 @@
           return response.json();
         })
         .then(data => {
-          resultParagraph.innerText = 'Added ${instructionsExecuted} instructions! ' +
-          'Global total: ${data.total.toLocaleString()}';
+          resultParagraph.innerText = 
+              `Added ${instructionsExecuted} instructions! ` +
+              `Global total: ${data.total.toLocaleString()}`;
         })
         .catch(error => {
           console.error("Error:", error);
