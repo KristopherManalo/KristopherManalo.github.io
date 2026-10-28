@@ -290,6 +290,14 @@ body {
 }
 .app-space {
   padding: 20px;
+  max-height: calc(100vh - 240px); /* Leave space for header and margins */
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .app-space {
+    max-height: calc(100vh - 300px);
+  }
 }
 
 .app-space h2 {

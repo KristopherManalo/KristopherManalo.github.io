@@ -1,7 +1,5 @@
 import * as monaco from "monaco-editor";
 import EditorWorker from
-//   "../node_modules/monaco-editor/esm/vs/editor/editor.worker?worker";
-//   "monaco-editor/esm/vs/editor/editor.worker?worker";
     "monaco-editor/editor/editor.worker?worker";
 
 import "./style.css";
@@ -32,6 +30,7 @@ const editor = monaco.editor.create(container, {
     fontSize: 14,
     lineNumbers: "on",
     scrollBeyondLastLine: true,
+    wordWrap: "on"
 });
 
 console.log("Monaco initialized", editor);
