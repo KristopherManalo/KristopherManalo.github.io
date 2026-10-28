@@ -70,9 +70,24 @@
             <span class="compressed-skill">Go</span>
             <span class="compressed-skill">Rust</span>
             <span class="compressed-skill">Python</span>
+            <span class="compressed-skill">Java</span>
+            <span class="compressed-skill">TypeScript</span>
+            <span class="compressed-skill">JavaScript</span>
+            <span class="compressed-skill">SQL</span>
+            <span class="compressed-skill">Bash</span>
+            <span class="compressed-skill">ARM Assembly</span>
+            <span class="compressed-skill">x86 Assembly</span>
           </div>
         </div>
-
+        <div class="skill-group primary">
+          <h3>WEB DEVELOPMENT</h3>
+          <div class="skills-grid">
+            <span class="compressed-skill">React</span>
+            <span class="compressed-skill">HTML</span>
+            <span class="compressed-skill">CSS</span>
+            <span class="compressed-skill">Node.js</span>
+          </div>
+        </div>
         <div class="skill-group primary">
           <h3>SYSTEMS & BACKEND</h3>
           <div class="skills-grid">
@@ -89,23 +104,76 @@
             <span class="compressed-skill">Vulkan</span>
             <span class="compressed-skill">OpenGL</span>
             <span class="compressed-skill">SystemVerilog</span>
+            <span class="compressed-skill">GLFW</span>
+            <span class="compressed-skill">GLM</span>
+            <span class="compressed-skill">Slang</span>
           </div>
         </div>
-
-        <div class="skill-group additional">
-          <button type="button" class="expand-toggle" aria-expanded="false">
-            View More Resources<span class="arrow">▼</span>
-          </button>
-          <div class="expanded-content">
-            <p class="additional-resource-text">
-              Advanced graphics programming resources, hardware documentation, and project examples are available here.
-              This section includes detailed guides on shader development, parallel computing techniques, and
-              system-level optimization strategies for high-performance applications.
-            </p>
+      <button id="expandButton" class="expand-button">View More ▼</button>
+        <section class="sidebar-section expandable-target" id="expanded-content">
+            <h4>ADDITIONAL SKILLS</h4>
+            <!--
+          <div class="skill-group primary">
+            <h3>ADDITIONAL LANGUAGES</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Java</span>
+              <span class="compressed-skill">TypeScript</span>
+              <span class="compressed-skill">JavaScript</span>
+              <span class="compressed-skill">SQL</span>
+              <span class="compressed-skill">Bash</span>
+              <span class="compressed-skill">ARM Assembly</span>
+              <span class="compressed-skill">x86 Assembly</span>
+            </div>
           </div>
-        </div>
+            -->
 
+          <div class="skill-group primary">
+            <h3>BACKEND & NETWORKING</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Protocol Buffers</span>
+              <span class="compressed-skill">HTTP</span>
+              <span class="compressed-skill">TCP</span>
+              <span class="compressed-skill">REST APIs</span>
+              <span class="compressed-skill">FFmpeg</span>
+              <!-- <span class="compressed-skill">consistent hashing</span> -->
+            </div>
+          </div>
+
+          <!--
+          <div class="skill-group primary">
+            <h3>GRAPHICS</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">GLFW</span>
+              <span class="compressed-skill">GLM</span>
+            </div>
+          </div>
+        -->
+
+          <div class="skill-group primary">
+            <h3>ARCHITECTURE & DIGITAL DESIGN</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Custom ISA design</span>
+              <span class="compressed-skill">CPU datapath and control logic</span>
+              <span class="compressed-skill">RTL simulation</span>
+            </div>
+          </div>
+
+          <div class="skill-group primary">
+            <h3>TOOLS</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Git</span>
+              <span class="compressed-skill">CMake</span>
+              <span class="compressed-skill">ModelSim</span>
+              <span class="compressed-skill">Intel Quartus Prime</span>
+              <span class="compressed-skill">Verilator</span>
+              <span class="compressed-skill">cocotb</span>
+              <span class="compressed-skill">GitHub Actions</span>
+            </div>
+          </div>
+
+        </section>
       </section>
+      <!-- Expandable Sections -->
 
     </aside>
 
@@ -128,9 +196,8 @@
     </main>
 
   </div>
-
-  <!-- Load skills toggle script -->
-  <script src="scripts/skills-toggle.js" defer></script>
+  <!-- Expand button functionality -->
+  <script src="scripts/expand-button.js" defer></script>
 
 </body>
 </html>

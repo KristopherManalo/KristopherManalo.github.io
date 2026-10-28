@@ -105,6 +105,7 @@ body {
   flex-direction: column;
   gap: 20px;
   padding-left: 30px;
+  min-width: 280px; /* Match unbounded width, maintain on smaller viewports */
 }
 
 .sidebar-section {
@@ -162,6 +163,54 @@ body {
   font-size: 0.85rem;
   letter-spacing: 1px;
   border: none;
+}
+
+/* Expandable button below Graphics & Hardware section - matches cta-button style */
+#expandButton {
+  display: block;
+  margin: 6px 0 6px 0;
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: #888888;
+}
+
+#expandButton:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+}
+
+#expandButton:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* Always visible fixed position expand button */
+#expandButton.fixed {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  padding: 12px 24px;
+}
+
+/* Expandable content section */
+.expandable-target {
+  display: none; /* Hidden by default */
+  margin-top: 6px; /* Matches button margin-bottom for equal spacing */
+}
+
+.expandable-target.show {
+  display: block; /* Show when expanded */
+}
+
+.expandable-target h3 {
+  margin: 0 0 4px 0;
 }
 
 /* ========================================
@@ -237,59 +286,6 @@ body {
   max-height: 2000px; /* Large enough to show all content */
   opacity: 1;
 }
-
-/* Graphics & Hardware additional toggle styling */
-.skill-group.additional .expand-toggle {
-  background-color: transparent;
-  color: #a0a0a0;
-  border: 1px dashed #444444;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  margin-top: 10px;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.skill-group.additional .expand-toggle:hover {
-  background-color: #2a2a4a;
-  color: #ffffff;
-  border-color: #666666;
-}
-
-.skill-group.additional .expand-toggle:focus {
-  outline: 2px solid #888888;
-  outline-offset: 2px;
-}
-
-.skill-group.additional.expanded {
-  margin-bottom: 15px;
-}
-
-.skill-group.additional .expanded-content {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 0.3s ease-in-out;
-  padding-left: 0;
-}
-
-.skill-group.additional.expanded .expanded-content {
-  max-height: 150px;
-  opacity: 1;
-  padding-left: 12px;
-  margin-top: 8px;
-  color: #999999;
-  font-size: 0.9rem;
-}
-
-.skill-group.additional .additional-resource-text {
-  line-height: 1.5;
-  color: inherit;
-}
-
 .app-space {
   padding: 20px;
 }
@@ -378,6 +374,6 @@ body {
 
   .info-sidebar {
     padding-left: 20px;
-    max-width: calc(100vw - 40px);
+    min-width: calc(100vw - 40px); /* Wrap to fit on very small screens */
   }
 }

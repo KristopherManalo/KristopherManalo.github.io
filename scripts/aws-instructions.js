@@ -30,4 +30,4 @@ document.getElementById("fetchBtn").addEventListener("click", async () => {
     console.error("Error:", error);
     resultParagraph.innerText = "Failed to communicate with backend D:";
   }
-}
+})
