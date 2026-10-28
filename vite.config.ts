@@ -8,7 +8,8 @@ export default defineConfig({
     plugins: [
         viteStaticCopy({
             targets: [
-                { src: "scripts/*", dest: "scripts"},
+                { src: "scripts/*", dest: "./"},
+                { src: "components/*", dest: "./"},
             ],
         }),
     ],
