@@ -19,19 +19,19 @@ body {
    ======================================== */
 .header-section {
   max-width: 1400px;
-  margin: 20px auto 40px auto;
+  margin: 10px auto 10px auto;
 }
 
 .name-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
+  gap: 4px;
 }
 
 .header-section h1 {
   font-size: 2.5rem;
-  margin: 0 0 6px 0;
+  margin: 0 0 4px 0;
   color: #ffffff;
 }
 
@@ -40,7 +40,7 @@ body {
   justify-content: center;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .portfolio-link {
@@ -64,7 +64,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .contact-email {
@@ -155,9 +155,141 @@ body {
   border: none;
 }
 
+.compressed-skill {
+  background-color: transparent;
+  color: #c0c0c0;
+  padding: 1px 4px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border: none;
+}
+
 /* ========================================
-   Main App Space (Right Side)
+   Technical Skills - Expanded Groups
    ======================================== */
+.skill-group {
+  margin-bottom: 20px;
+}
+
+.skill-group h3 {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.skill-group.primary {
+  display: block;
+}
+
+.skill-group.additional {
+  display: none; /* Hidden by default - never show */
+}
+
+.skill-group.additional.expanded {
+  display: block; /* Shown when .expanded class is added */
+}
+
+.expand-toggle {
+  background: none;
+  border: 1px solid #444444;
+  color: #a0a0a0;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.expand-toggle:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.expand-toggle:focus {
+  outline: 2px solid #888888;
+  outline-offset: 2px;
+}
+
+.arrow {
+  display: inline-block;
+  margin-left: 4px;
+  transition: transform 0.2s ease;
+}
+
+.expand-toggle[aria-expanded="true"] .arrow {
+  transform: rotate(180deg);
+}
+
+.expanded-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+}
+
+.skill-group.additional.expanded .expanded-content {
+  max-height: 2000px; /* Large enough to show all content */
+  opacity: 1;
+}
+
+/* Graphics & Hardware additional toggle styling */
+.skill-group.additional .expand-toggle {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: 1px dashed #444444;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  margin-top: 10px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.skill-group.additional .expand-toggle:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.skill-group.additional .expand-toggle:focus {
+  outline: 2px solid #888888;
+  outline-offset: 2px;
+}
+
+.skill-group.additional.expanded {
+  margin-bottom: 15px;
+}
+
+.skill-group.additional .expanded-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  padding-left: 0;
+}
+
+.skill-group.additional.expanded .expanded-content {
+  max-height: 150px;
+  opacity: 1;
+  padding-left: 12px;
+  margin-top: 8px;
+  color: #999999;
+  font-size: 0.9rem;
+}
+
+.skill-group.additional .additional-resource-text {
+  line-height: 1.5;
+  color: inherit;
+}
+
 .app-space {
   padding: 20px;
 }
