@@ -1,52 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Location</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kristopher Manalo - Portfolio</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="components/header.js" defer></script>
-
-
 </head>
 <body>
-  <main-header></main-header>
+  <!-- Header with Name and Contact Links -->
+  <header class="header-section">
+    <div class="name-container">
+      <h1>Kristopher Manalo</h1>
 
-  <button id="fetchBtn">test</button>
-  <p id="result"></p>
+      <div class="contact-links">
+        <a href="https://github.com/KristopherManalo" class="portfolio-link">GitHub</a>
+        <a href="https://www.linkedin.com/in/kristopher-manalo/" class="portfolio-link">LinkedIn</a>
+        <!--<a href="#" class="portfolio-link">Twitter / X</a> -->
+        <a href="resumes/2026-09-14.pdf" class="portfolio-link">Resume/CV</a>
+        <a href="#" class="portfolio-link">Blog</a>
+      </div>
 
-  <script>
-    document.getElementById("fetchBtn").addEventListener("click", () => {
-      const resultParagraph = document.getElementById('result');
-      resultParagraph.innerText = "sending instruction count owo";
+      <div class="contact-list">
+        <a href="mailto:kristophermmanalo@gmail.com" class="contact-email">
+          kristophermmanalo@gmail.com
+        </a>
+        <button id="alternativeContactBtn" disabled class="contact-button alternative">
+          📞 Alternative Contact (Coming Soon)
+        </button>
+      </div>
+    </div>
+  </header>
 
-        const url = "https://27irlz5j37nkz2pnm4j2f52ely0inpth.lambda-url.us-east-2.on.aws/";
+  <!-- Main Content Area -->
+  <div class="main-content">
 
-        const instructionsExecuted = 42;
+    <!-- Left Sidebar - Info & Skills -->
+    <aside class="info-sidebar">
+      <section class="sidebar-section">
+        <h2>About Me</h2>
+        <p>
+          I'm a passionate developer focused on building innovative web applications and improving user experiences.
+        </p>
+      </section>
 
-        fetch(url, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            instructionsExecuted: instructionsExecuted
-          })
-        })
-        .then(response => {
-          if (!response.ok) {
-              throw new Error('Network did not respond :(');
-          }
-          return response.json();
-        })
-        .then(data => {
-          resultParagraph.innerText =
-              `Added ${instructionsExecuted} instructions! ` +
-              `Global total: ${data.total.toLocaleString()}`;
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          resultParagraph.innerText = "Failed to communicate with backend D:";
-        });
-      });
-  </script>
+      <section class="sidebar-section">
+        <h2>Tech Stack</h2>
+        <ul>
+          <li>JavaScript / TypeScript</li>
+          <li>Web Development</li>
+          <li>Cloud Services</li>
+          <li>API Design</li>
+        </ul>
+      </section>
+
+      <section class="sidebar-section">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+          <span class="skill-tag">Frontend</span>
+          <span class="skill-tag">Backend</span>
+          <span class="skill-tag">DevOps</span>
+          <span class="skill-tag">Testing</span>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Right Side - Major JS Runtime App Space -->
+    <main class="app-space">
+      <h2>Interactive Demo</h2>
+      <p>This is where your major JavaScript runtime application will live.</p>
+
+      <div class="editor-preview">
+        <div class="editor-placeholder">
+          <h3>Text Editor Applet</h3>
+          <p>
+          A code editor with syntax highlighting, file management, and collaborative features.
+          </p>
+          <button id="fetchBtn" class="cta-button">Open Editor</button>
+          <script src="scripts/aws-instructions.js" defer></script>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
 </body>
 </html>
