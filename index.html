@@ -1,52 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Location</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kristopher Manalo - Portfolio</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="components/header.js" defer></script>
-
-
 </head>
 <body>
-  <main-header></main-header>
+  <!-- Header with Name and Contact Links -->
+  <header class="header-section">
+    <div class="name-container">
+      <h1>Kristopher Manalo</h1>
 
-  <button id="fetchBtn">test</button>
-  <p id="result"></p>
+      <div class="contact-links">
+        <a href="https://github.com/KristopherManalo"
+          class="portfolio-link">GitHub</a>
+        <a href="https://www.linkedin.com/in/kristopher-manalo/"
+          class="portfolio-link">LinkedIn</a>
+        <!--<a href="#" class="portfolio-link">Twitter / X</a> -->
+        <a href="resumes/2026-09-14.pdf"
+          class="portfolio-link">Resume/CV</a>
+        <a href="#"
+          class="portfolio-link">Archive</a>
+      </div>
 
-  <script>
-    document.getElementById("fetchBtn").addEventListener("click", () => {
-      const resultParagraph = document.getElementById('result');
-      resultParagraph.innerText = "sending instruction count owo";
+      <div class="contact-list">
+        <a href="mailto:kristophermmanalo@gmail.com"
+          class="contact-email">
+          kristophermmanalo@gmail.com
+        </a>
+        <button id="alternativeContactBtn" disabled
+          class="contact-button alternative">
+           Alternative Contact (Coming Soon)
+        </button>
+      </div>
+    </div>
+  </header>
 
-        const url = "https://27irlz5j37nkz2pnm4j2f52ely0inpth.lambda-url.us-east-2.on.aws/";
+  <!-- Main Content Area -->
+  <div class="main-content">
 
-        const instructionsExecuted = 42;
+    <!-- Left Sidebar - Info & Skills -->
+    <aside class="info-sidebar">
+      <section class="sidebar-section">
+        <h2>About Me</h2>
+        <p>
+        </p>
+      </section>
 
-        fetch(url, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ 
-            instructionsExecuted: instructionsExecuted
-          })
-        })
-        .then(response => {
-          if (!response.ok) {
-              throw new Error('Network did not respond :(');
-          }
-          return response.json();
-        })
-        .then(data => {
-          resultParagraph.innerText = 
-              `Added ${instructionsExecuted} instructions! ` +
-              `Global total: ${data.total.toLocaleString()}`;
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          resultParagraph.innerText = "Failed to communicate with backend D:";
-        });
-      });
-  </script>
+      <section class="sidebar-section">
+        <h2>Education</h2>
+        <p>
+        <div style="font-weight: bold">
+          B.S. in Computer Engineering</div>
+        <div style="font-size: calc(1rem - 2px)">
+          University of California, San Diego</div>
+        <div style="font-size: calc(1rem - 2px)">
+          2026</div>
+        </p>
+      </section>
+
+      <section class="sidebar-section">
+
+        <div class="skill-group primary">
+          <h3>LANGUAGES</h3>
+          <div class="skills-grid">
+            <span class="compressed-skill">C</span>
+            <span class="compressed-skill">C++</span>
+            <span class="compressed-skill">Go</span>
+            <span class="compressed-skill">Rust</span>
+            <span class="compressed-skill">Python</span>
+            <span class="compressed-skill">Java</span>
+            <span class="compressed-skill">TypeScript</span>
+            <span class="compressed-skill">JavaScript</span>
+            <span class="compressed-skill">SQL</span>
+            <span class="compressed-skill">Bash</span>
+            <span class="compressed-skill">ARM Assembly</span>
+            <span class="compressed-skill">x86 Assembly</span>
+          </div>
+        </div>
+        <div class="skill-group primary">
+          <h3>WEB DEVELOPMENT</h3>
+          <div class="skills-grid">
+            <span class="compressed-skill">React</span>
+            <span class="compressed-skill">HTML</span>
+            <span class="compressed-skill">CSS</span>
+            <span class="compressed-skill">Node.js</span>
+          </div>
+        </div>
+        <div class="skill-group primary">
+          <h3>SYSTEMS & BACKEND</h3>
+          <div class="skills-grid">
+            <span class="compressed-skill">Linux</span>
+            <span class="compressed-skill">gRPC</span>
+            <span class="compressed-skill">PostgreSQL</span>
+            <span class="compressed-skill">SQLite</span>
+          </div>
+        </div>
+
+        <div class="skill-group primary">
+          <h3>GRAPHICS & HARDWARE</h3>
+          <div class="skills-grid">
+            <span class="compressed-skill">Vulkan</span>
+            <span class="compressed-skill">OpenGL</span>
+            <span class="compressed-skill">SystemVerilog</span>
+            <span class="compressed-skill">GLFW</span>
+            <span class="compressed-skill">GLM</span>
+            <span class="compressed-skill">Slang</span>
+          </div>
+        </div>
+      <button id="expandButton" class="expand-button">Additional Skills ▼</button>
+        <section class="sidebar-section expandable-target" id="expanded-content">
+            <!-- <h4>ADDITIONAL SKILLS</h4> -->
+            <!--
+          <div class="skill-group primary">
+            <h3>ADDITIONAL LANGUAGES</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Java</span>
+              <span class="compressed-skill">TypeScript</span>
+              <span class="compressed-skill">JavaScript</span>
+              <span class="compressed-skill">SQL</span>
+              <span class="compressed-skill">Bash</span>
+              <span class="compressed-skill">ARM Assembly</span>
+              <span class="compressed-skill">x86 Assembly</span>
+            </div>
+          </div>
+            -->
+
+          <div class="skill-group primary">
+            <h3>BACKEND & NETWORKING</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Protocol Buffers</span>
+              <span class="compressed-skill">HTTP</span>
+              <span class="compressed-skill">TCP</span>
+              <span class="compressed-skill">REST APIs</span>
+              <span class="compressed-skill">FFmpeg</span>
+              <!-- <span class="compressed-skill">consistent hashing</span> -->
+            </div>
+          </div>
+
+          <!--
+          <div class="skill-group primary">
+            <h3>GRAPHICS</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">GLFW</span>
+              <span class="compressed-skill">GLM</span>
+            </div>
+          </div>
+        -->
+
+          <div class="skill-group primary">
+            <h3>ARCHITECTURE & DIGITAL DESIGN</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Custom ISA design</span>
+              <span class="compressed-skill">CPU datapath and control logic</span>
+              <span class="compressed-skill">RTL simulation</span>
+            </div>
+          </div>
+
+          <div class="skill-group primary">
+            <h3>TOOLS</h3>
+            <div class="skills-grid">
+              <span class="compressed-skill">Git</span>
+              <span class="compressed-skill">CMake</span>
+              <span class="compressed-skill">ModelSim</span>
+              <span class="compressed-skill">Intel Quartus Prime</span>
+              <span class="compressed-skill">Verilator</span>
+              <span class="compressed-skill">cocotb</span>
+              <span class="compressed-skill">GitHub Actions</span>
+            </div>
+          </div>
+
+        </section>
+      </section>
+      <!-- Expandable Sections -->
+
+    </aside>
+
+    <!-- Right Side - Major JS Runtime App Space -->
+    <main class="app-space">
+      <h2>Interactive Demo</h2>
+      <p>This is where your major JavaScript runtime application will live.</p>
+
+      <div class="editor-preview">
+        <div class="editor-placeholder">
+          <h3>Text Editor Applet</h3>
+          <p>
+          A code editor with syntax highlighting, file management, and collaborative features.
+          </p>
+          <button id="fetchBtn" class="cta-button">Open Editor</button>
+          <script src="scripts/aws-instructions.js" defer></script>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+  <!-- Expand button functionality -->
+  <script src="scripts/expand-button.js" defer></script>
+
 </body>
 </html>

@@ -1,82 +1,381 @@
-.name {
-  color: Plum;
-  text-align: center;
+/* ========================================
+   Global Styles - Static & Simple Design
+   ======================================== */
+* {
+  box-sizing: border-box;
+  scrollbar-gutter: stable;
 }
 
-.navbar {
-  overflow: hidden;
-  background-color: #333;
+body {
+  font-family: 'Inconsolata', 'Courier New', monospace;
+  color: #e0e0e0;
+  background-color: #1a1a2e;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
 }
 
-.navbar a {
-  float: left;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
+/* ========================================
+   Header Section - Static Layout
+   ======================================== */
+.header-section {
+  max-width: 1400px;
+  margin: 10px auto 10px auto;
+  display: block;
+}
+
+.name-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-section h1 {
+  font-size: 2.5rem;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.portfolio-link {
+  color: #a0a0a0;
   text-decoration: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  transition: none;
 }
 
-.dropdown {
-  float: left;
-  overflow: hidden;
+.portfolio-link:hover {
+  color: #ffffff;
 }
 
-.dropdown .dropbtn {
-  font-size: 16px;  
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
+.contact-section {
   margin: 0;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: red;
+.contact-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
 }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
+.contact-email {
+  color: #888888;
   text-decoration: none;
+  padding: 8px 18px;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+.contact-button {
+  background-color: transparent;
+  color: #a0a0a0;
+  border: 1px dashed #444444;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  cursor: not-allowed;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+/* ========================================
+   Main Content Area - Two Column Layout
+   ======================================== */
+.main-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ========================================
+   Sidebar (Info Section) - Left Side
+   ======================================== */
+.info-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 30px;
+  min-width: 280px; /* Match unbounded width, maintain on smaller viewports */
+}
+
+.sidebar-section {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.sidebar-section h2 {
+  font-size: 1.2rem;
+  margin: 0 0 10px 0;
+  color: #ffffff;
+}
+
+.sidebar-section p {
+  color: #a0a0a0;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.sidebar-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-section li {
+  color: #a0a0a0;
+  padding: 6px 8px;
+  border-bottom: none;
+  font-size: 0.9rem;
+}
+
+/* ========================================
+   Skills Grid - Left Side
+   ======================================== */
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background-color: transparent;
+  color: #a0a0a0;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border: none;
+}
+
+.compressed-skill {
+  background-color: transparent;
+  color: #c0c0c0;
+  padding: 1px 4px;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border: none;
+}
+
+/* Expandable button below Graphics & Hardware section - matches cta-button style */
+#expandButton {
   display: block;
-  text-align: left;
+  margin: 6px 0 6px 0;
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: #888888;
 }
 
-.dropdown-content a:hover {
-  background-color: #ddd;
+#expandButton:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
 }
 
-.dropdown:hover .dropdown-content {
+#expandButton:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* Always visible fixed position expand button */
+#expandButton.fixed {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  padding: 12px 24px;
+}
+
+/* Expandable content section */
+.expandable-target {
+  display: none; /* Hidden by default */
+  margin-top: 6px; /* Matches button margin-bottom for equal spacing */
+}
+
+.expandable-target.show {
+  display: block; /* Show when expanded */
+}
+
+.expandable-target h3 {
+  margin: 0 0 4px 0;
+}
+
+/* ========================================
+   Technical Skills - Expanded Groups
+   ======================================== */
+.skill-group {
+  margin-bottom: 20px;
+}
+
+.skill-group h3 {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.skill-group.primary {
   display: block;
 }
 
-:root {
-  --header-height: 140px;
+.skill-group.additional {
+  display: none; /* Hidden by default - never show */
 }
 
-main-header:not(:defined) {
-  display: block;
-  visiblity:hidden;
-  height: var(--header-height);
-  box-sizing: border-box;
+.skill-group.additional.expanded {
+  display: block; /* Shown when .expanded class is added */
 }
 
-header {
-  height: var(--header-height);
-  display: block;
-  box-sizing: border-box;
+.expand-toggle {
+  background: none;
+  border: 1px solid #444444;
+  color: #a0a0a0;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
+.expand-toggle:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.expand-toggle:focus {
+  outline: 2px solid #888888;
+  outline-offset: 2px;
+}
+
+.arrow {
+  display: inline-block;
+  margin-left: 4px;
+  transition: transform 0.2s ease;
+}
+
+.expand-toggle[aria-expanded="true"] .arrow {
+  transform: rotate(180deg);
+}
+
+.expanded-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+}
+
+.skill-group.additional.expanded .expanded-content {
+  max-height: 2000px; /* Large enough to show all content */
+  opacity: 1;
+}
+.app-space {
+  padding: 20px;
+}
+
+.app-space h2 {
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+  color: #ffffff;
+}
+
+.app-space p {
+  color: #a0a0a0;
+  margin-bottom: 20px;
+}
+
+.editor-placeholder h3 {
+  font-size: 1.4rem;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.editor-placeholder p {
+  max-width: none;
+  margin: 0 0 20px 0;
+  color: #a0a0a0;
+}
+
+.cta-button {
+  background-color: transparent;
+  color: #888888;
+  border: 1px solid #444444;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ========================================
+   Responsive Design - Simple Layout
+   ======================================== */
+@media (max-width: 900px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .info-sidebar {
+    margin-bottom: 20px;
+    padding-left: 20px;
+    max-width: calc(100vw - 40px);
+  }
+
+  .header-section h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-section h1 {
+    font-size: 1.75rem;
+  }
+
+  .contact-links {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .portfolio-link {
+    text-align: center;
+    width: 100%;
+    max-width: 260px;
+    white-space: normal;
+  }
+
+  .contact-list {
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: center;
+  }
+
+  .contact-email,
+  .contact-button {
+    white-space: normal;
+  }
+
+  .info-sidebar {
+    padding-left: 20px;
+    min-width: calc(100vw - 40px); /* Wrap to fit on very small screens */
+  }
+}
