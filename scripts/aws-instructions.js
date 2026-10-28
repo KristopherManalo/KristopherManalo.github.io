@@ -2,7 +2,6 @@
  * AWS Lambda Instructions API Client
  * Sends instructions count to an AWS Lambda endpoint and updates the UI with results.
  */
-
 document.getElementById("fetchBtn").addEventListener("click", async () => {
   const resultParagraph = document.getElementById('result');
   resultParagraph.innerText = "sending instruction count owo";
@@ -31,4 +30,4 @@ document.getElementById("fetchBtn").addEventListener("click", async () => {
     console.error("Error:", error);
     resultParagraph.innerText = "Failed to communicate with backend D:";
   }
-});
+}
