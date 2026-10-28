@@ -21,7 +21,15 @@ body {
 
 #editor {
     height: 420px;
+    max-height: calc(100vh - 280px);
+    min-height: 200px;
     border: 1px solid #343945;
     border-radius: 8px;
     overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    #editor {
+        max-height: calc(100vh - 300px);
+    }
 }

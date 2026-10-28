@@ -290,21 +290,15 @@ body {
 }
 .app-space {
   padding: 20px;
+  max-height: calc(100vh - 240px); /* Leave space for header and margins */
+  overflow-y: auto;
 }
 
-.app-space h2 {
-  font-size: 1.5rem;
-  margin: 0 0 10px 0;
-  color: #ffffff;
-}
-
-.app-space p {
-  color: #a0a0a0;
-  margin-bottom: 20px;
-}
-
+/* ========================================
+   Monaco Editor Container - Embedded in App Space
+   ======================================== */
 .editor-placeholder h3 {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin: 0 0 8px 0;
   color: #ffffff;
 }
@@ -323,6 +317,23 @@ body {
   font-size: 0.9rem;
   font-family: inherit;
   cursor: pointer;
+}
+
+.editor-frame {
+  width: 100%;
+  height: 420px;
+  max-height: calc(100vh - 280px);
+  min-height: 200px;
+  border: 1px solid #3a3a5c;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#editor {
+  width: 110%;
+  /*
+  height: calc(100% - 54px); /* Subtract header and spacing */
+  min-height: 100%;
 }
 
 /* ========================================
