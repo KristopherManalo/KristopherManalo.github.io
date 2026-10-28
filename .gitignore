@@ -2,3 +2,9 @@
 .claude*
 memory/
 node_modules/
+
+.env
+.env.*
+!.env.example
+
+*.tsbuildinfo

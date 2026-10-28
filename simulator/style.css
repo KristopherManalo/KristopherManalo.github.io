@@ -1,0 +1,27 @@
+:root {
+    color-scheme: dark;
+    font-family: system-ui, sans-serif;
+    background: #111318;
+    color: #e5e7eb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 2rem;
+}
+
+.simulator {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+#editor {
+    height: 420px;
+    border: 1px solid #343945;
+    border-radius: 8px;
+    overflow: hidden;
+}
