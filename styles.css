@@ -3,6 +3,7 @@
    ======================================== */
 * {
   box-sizing: border-box;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
 .header-section {
   max-width: 1400px;
   margin: 10px auto 10px auto;
+  display: block;
 }
 
 .name-container {
