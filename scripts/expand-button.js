@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update button text
         if (expandedContent.classList.contains('show')) {
-          this.textContent = 'View More ▲';
+          this.textContent = 'Additional Skills ▲';
         } else {
-          this.textContent = 'View More ▼';
+          this.textContent = 'Additional Skills ▼';
         }
       }
     });
