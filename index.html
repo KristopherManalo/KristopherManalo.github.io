@@ -74,7 +74,7 @@
             <span class="compressed-skill">TypeScript</span>
             <span class="compressed-skill">JavaScript</span>
             <span class="compressed-skill">SQL</span>
-            <span class="compressed-skill">Bash</span>
+            <!-- <span class="compressed-skill">Bash</span> -->
             <span class="compressed-skill">ARM Assembly</span>
             <span class="compressed-skill">x86 Assembly</span>
           </div>
@@ -179,13 +179,18 @@
 
     <!-- Right Side - Major JS Runtime App Space -->
     <main class="app-space">
+      <h3 style="padding: 0px; margin: 0px 0px 1px 0px">Freaky Gojo Asm Demo</h4>
       <div class="editor-frame">
-      <div id="editor"></div>
+        <button id="assemble" class="cta-button">Assemble*</button>
+        <div id="editor"></div>
       </div>
       <script type="module">
         import './simulator/main.ts';
       </script>
-
+      <p style="color: #a0a0a0; font-size: 9.1px;">
+        *Assemble is a misnomer, the amount of pre-processing and code generation
+        makes it more akin to a compiler then an assembler
+      </p>
     </main>
 
   </div>

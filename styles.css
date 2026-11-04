@@ -318,6 +318,11 @@ body {
   font-family: inherit;
   cursor: pointer;
 }
+.cta-button:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
 
 .editor-frame {
   width: 100%;
@@ -330,7 +335,7 @@ body {
 }
 
 #editor {
-  width: 110%;
+  width: calc(100% + 30px);
   /*
   height: calc(100% - 54px); /* Subtract header and spacing */
   min-height: 100%;
