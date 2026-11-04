@@ -1,2 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { parse } from "./parser";
+import { create_core } from "./cpu";
+
+
+describe("CPU Test", () => {
+
+});

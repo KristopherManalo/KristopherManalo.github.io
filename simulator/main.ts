@@ -6,7 +6,8 @@ import { parse } from "./core/parser"
 import { LANGUAGE_ID } from "./language";
 import { program_16to16 } from "./samplePrograms/16to16";
 import { Instruction } from "./core/types";
-import { create_core } from "./core/cpu";
+import { create_core, execute_instruction } from "./core/cpu";
+import { simple } from "./samplePrograms/simple";
 
 self.MonacoEnvironment = {
   getWorker() {
@@ -21,7 +22,7 @@ if (!container) {
 }
 
 const editor = monaco.editor.create(container, {
-  value: program_16to16,
+  value: simple,
   language: LANGUAGE_ID,
   theme: "vs-dark",
   automaticLayout: true,
@@ -38,21 +39,30 @@ const assembleButton = document.getElementById("assemble");
 
 assembleButton?.addEventListener("click", () => {
   const source = editor.getValue();
-    if (import.meta.env.DEV) console.log("Editor text:\n", source);
+  if (import.meta.env.DEV) console.log("Editor text:\n", source);
 
-  // try {
-    load_program(source)
-  // } catch (error) {
-    // console.error("Parsing failed:");
-  // }
+  load_program(source)
 });
 
 async function load_program(source: string) {
   const instructions = await parse(source);
 
   const core = create_core();
+  console.log("Initial:", core);
+  core.halted = false;  
 
   for (const inst of instructions) {
-    console.log(`${inst.opcode}`);
+    console.log(`${inst.opcode}, 
+operands: ${inst.operands}, 
+immediate: ${inst.immediate},
+pc: ${inst};
+`);  
   }
+  while (!core.halted) {
+    const inst = instructions[core.pc];
+    if (!inst) break;
+    execute_instruction(core, inst);
+  }
+
+  console.log("Final:", core);
 }
