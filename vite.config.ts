@@ -17,8 +17,8 @@ export default defineConfig({
     build: {
         rollupOptions: {
             input: {
-                portifolio: resolve(__dirname, "index.html"),
-                simulator: resolve(__dirname, "simulator/index.html")
+                portifolio: resolve(import.meta.dirname, "index.html"),
+                simulator: resolve(import.meta.dirname, "simulator/index.html")
             }
         }
     }
