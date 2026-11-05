@@ -11,6 +11,10 @@ export function create_core(): CpuState {
     return core;
 }
 
+export function start_core(core: CpuState): void {
+    core.halted = false;
+}
+
 type InstructionHandler 
         = (core: CpuState, inst: Instruction) => void;
 
@@ -34,7 +38,7 @@ export function execute_instruction(
     core: CpuState,
     inst: Instruction
 ) {
-    console.log(inst.opcode);
+    // console.log(inst.opcode);
     const handler = INSTRUCTION_HANDLERS[inst.opcode];
 
     if (!handler) {
@@ -57,6 +61,7 @@ function nop(core: CpuState): void {
  * @param core 
  */
 function don(core: CpuState): void {
+    core.pc++;
     core.halted = true;
 }
 
@@ -157,10 +162,12 @@ function adi(core: CpuState, inst: Instruction): void {
     const reg = inst.operands[0];
     // ex: mov r0, #3 ;; moves [r7] = 3
     if (reg === 0) {
-        core.registers[7] == inst.immediate!;
+        core.registers[7] = inst.immediate!;
     }
     else {
-        core.registers[reg] = core.registers[7] + inst.immediate!;
+        const result: number = core.registers[7] + inst.immediate!;
+        core.carry_out = result > 0xFF;
+        core.registers[reg] = result & 0xFF;
     }
     core.pc++;
 }

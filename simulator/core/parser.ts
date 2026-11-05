@@ -13,7 +13,7 @@ export async function parse(source: string): Promise<Instruction[]> {
     };
 
     for await (const line of streamLines(source)) {
-        console.log(context.sourceLine, line);
+        // console.log(context.sourceLine, line);
         try {
             const inst = parse_line(line, context);
             // context.sourceLine++;
@@ -70,7 +70,7 @@ function parse_line(
 
     const opcode = line.substring(0,3);
     var inst: Instruction;
-    console.log("heya :3 opcode =", opcode, "and its type is", get_type(opcode));
+    // console.log("heya :3 opcode =", opcode, "and its type is", get_type(opcode));
     try {
         switch(get_type(opcode)) {
             case InstructionType.S:
@@ -139,7 +139,7 @@ function get_type(opcode: string): InstructionType | undefined {
  * @returns 1 if valid, -1 if self, 0 if invalid
  */
 function regInRange(reg0: number, reg1: number): number {
-    console.log(reg1, reg0);
+    // console.log(reg1, reg0);
     switch(reg1-reg0) {
         case 0:
             return -1;
@@ -211,7 +211,7 @@ function get_imm(line: string): number {
 function encode_r(line: string, sourceLine: number): Instruction {
     line = line.toLowerCase();
     const [reg0, reg1] = get_regs(line);
-    console.log(reg0, reg1);
+    // console.log(reg0, reg1);
     if (regInRange(reg0, reg1) != 1) {
         throw Error("Invalid reg offset");
     }
