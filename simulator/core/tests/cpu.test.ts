@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { create_core, execute_instruction, start_core } from "./cpu";
-import type { Instruction } from "./types";
+import { create_core, execute_instruction, start_core } from "../cpu";
+import type { Instruction } from "../types";
 
 describe("CPU Core Creation", () => {
     it("creates a core with initial properties", () => {
