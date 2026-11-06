@@ -22,7 +22,7 @@ export async function parse(source: string): Promise<Instruction[]> {
             }
         }
         catch (error) {
-            // throw Error("huh???");
+            throw new Error(`Invalid line ${context.sourceLine}: ${error}`);
         }
         context.sourceLine++;
     }
@@ -107,13 +107,14 @@ function parse_line(
                     operands: [],
                     immediate: null
                 };
-                throw Error("invalid instruction");
+                throw ("invalid instruction")
                 // should be unreachable
         }
     }
     catch (error) {
         console.log("error:", line)
-        throw Error(`Invalid instruction at ${context.sourceLine}`);
+        throw (`${error}: 
+    ${line}`);
     }
 
     // if(context.has_label == 1) {
@@ -186,7 +187,7 @@ function get_reg(line: string): number {
 function get_regs(line: string): [number, number] {
     const matches = [...line.matchAll(/r(\d+)/g)];
 
-    if (matches.length != 2) throw Error("Expected two registers");
+    if (matches.length != 2) throw ("Expected two registers");
 
     return [Number(matches[0][1]),Number(matches[1][1])];
 }
@@ -213,7 +214,7 @@ function encode_r(line: string, sourceLine: number): Instruction {
     const [reg0, reg1] = get_regs(line);
     // console.log(reg0, reg1);
     if (regInRange(reg0, reg1) != 1) {
-        throw Error("Invalid reg offset");
+        throw ("Invalid reg offset");
     }
     return {
         opcode: line.substring(0, 3),
