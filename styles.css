@@ -395,3 +395,43 @@ body {
     min-width: calc(100vw - 40px); /* Wrap to fit on very small screens */
   }
 }
+
+.editor-header {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+}
+
+.editor-button {
+  background-color: transparent;
+  color: #888888;
+  border: 1px solid #444444;
+  padding: 0px 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+.editor-button:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.registers {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  width: 100wh;
+}
+
+.reg {
+  /* background-color: transparent; */
+  color: #888888;
+  /* border: 1px solid #444444; */
+  padding: 0px 00px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  /* cursor: pointer; */
+}

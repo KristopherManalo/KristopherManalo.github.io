@@ -1,7 +1,17 @@
-import { Instruction, InstructionType, ParseContext, OPCODE_GROUPS } from "./types";
+import { 
+    Instruction, 
+    InstructionType, 
+    ParseContext, 
+    OPCODE_GROUPS, 
+    ParseResult, 
+    ParseError,
+    isInstruction,
+    isParseError
+} from "./types";
 
-export async function parse(source: string): Promise<Instruction[]> {
+export async function parse(source: string): Promise<ParseResult> {
     let instructions: Instruction[] = [];
+    let errors: ParseError[] = [];
 
     let context: ParseContext = {
         sourceLine: 1,
@@ -17,8 +27,16 @@ export async function parse(source: string): Promise<Instruction[]> {
         try {
             const inst = parse_line(line, context);
             // context.sourceLine++;
-            if(inst) {
+            if (inst === null) {
+            }
+            else if(isInstruction(inst)) {
                 instructions.push(inst);
+            }
+            else if(isParseError(inst)) {
+                errors.push(inst);
+            }
+            else {
+                throw Error("Unreachable section reached, check type check functions")
             }
         }
         catch (error) {
@@ -26,7 +44,10 @@ export async function parse(source: string): Promise<Instruction[]> {
         }
         context.sourceLine++;
     }
-    return instructions;
+    return { 
+        instructions: instructions,
+        errors: errors
+    };
 }
 
 export async function* streamLines(source: string)
@@ -54,7 +75,7 @@ export async function* streamLines(source: string)
 function parse_line(
     line: string, 
     context: ParseContext
-): Instruction | null {
+): Instruction | ParseError | null {
     // console.log("parsing line");
     line = line.split("//", 1)[0].trim()
 
@@ -68,7 +89,7 @@ function parse_line(
         return null;
     }
 
-    const opcode = line.substring(0,3);
+    const opcode = line.trim().split(/\s+/,1)[0].toLowerCase();
     var inst: Instruction;
     // console.log("heya :3 opcode =", opcode, "and its type is", get_type(opcode));
     try {
@@ -101,20 +122,17 @@ function parse_line(
                 inst = encode_m(line, context.sourceLine);
                 break;
             default:
-                var inst: Instruction = {
-                    opcode: "/0", 
-                    sourceLine: context.sourceLine,
-                    operands: [],
-                    immediate: null
-                };
-                throw ("invalid instruction")
-                // should be unreachable
+                throw (`Invalid line ${context.sourceLine}`);
         }
     }
     catch (error) {
-        console.log("error:", line)
-        throw (`${error}: 
+        // console.log("error:", line)
+        const message: string = (`${error}: 
     ${line}`);
+        return {
+            sourceLine: context.sourceLine,
+            message: message
+        }
     }
 
     // if(context.has_label == 1) {
@@ -288,6 +306,9 @@ function encode_i2(line: string, sourceLine: number): Instruction {
 function encode_i3(line: string, sourceLine: number): Instruction {
     line = line.toLowerCase();
     const [reg, imm] = get_regimm(line);
+    if (imm > 3 || imm < -4) {
+        throw ("immediate must be in [-4, 3]");
+    }
     return {
         opcode: line.substring(0,3),
         operands: [reg],

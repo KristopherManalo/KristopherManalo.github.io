@@ -22,6 +22,14 @@ export interface Instruction {
     immediate: number | null;
 }
 
+export function isInstruction(t: any): t is Instruction {
+    return t 
+        && typeof t.opcode === "string"
+        && Array.isArray(t.operands)
+        && typeof t.sourceLine === "number"
+        && (typeof t.immediate === "number" || t.immediate === null);
+}
+
 export interface Label {
     name: string;
     pc: number;
@@ -34,6 +42,22 @@ export interface ParseContext {
     goto_label: number;
     labels: Label[];
     current_label: Label | null;
+}
+
+export interface ParseError {
+    sourceLine: number;
+    message: string;
+}
+
+export function isParseError(t: any): t is ParseError {
+    return t
+        && typeof t.sourceLine === "number"
+        && typeof t.message === "string"
+}
+
+export interface ParseResult {
+    instructions: Instruction[];
+    errors: ParseError[];
 }
 
 export const S_TYPE = new Set(["nop", "don"]);
