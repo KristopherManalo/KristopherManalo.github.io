@@ -43,7 +43,7 @@ monaco.languages.setMonarchTokensProvider(LANGUAGE_ID, {
             }],
 
             // Registers (r0-r7)
-            [/\br[0-7]\b/i, "variable"],
+            [/r[0-7]\b/i, "variable"],
 
             // Immediate values (e.g. #5, #-10)
             [/#-?\d+/, "number"],

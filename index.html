@@ -181,7 +181,20 @@
     <main class="app-space">
       <h3 style="padding: 0px; margin: 0px 0px 1px 0px">Freaky Gojo Asm Demo</h4>
       <div class="editor-frame">
-        <button id="assemble" class="cta-button">Assemble*</button>
+        <div class="editor-header">          
+          <button id="assemble" class="editor-button">Assemble*</button>
+          <button title="Step-through"id="step-through" class="editor-button">↓</button>
+          <div class="registers">
+            <div class="reg">R0:<br><span id="reg-0">0x00</span></div>
+            <div class="reg">R1:<br><span id="reg-1">0x00</span></div>
+            <div class="reg">R2:<br><span id="reg-2">0x00</span></div>
+            <div class="reg">R3:<br><span id="reg-3">0x00</span></div>
+            <div class="reg">R4:<br><span id="reg-4">0x00</span></div>
+            <div class="reg">R5:<br><span id="reg-5">0x00</span></div>
+            <div class="reg">R6:<br><span id="reg-6">0x00</span></div>
+            <div class="reg">R7:<br><span id="reg-7">0x00</span></div>
+          </div>
+        </div>
         <div id="editor"></div>
       </div>
       <script type="module">
@@ -189,8 +202,12 @@
       </script>
       <p style="color: #a0a0a0; font-size: 9.1px;">
         *Assemble is a misnomer, the amount of pre-processing and code generation
-        makes it more akin to a compiler then an assembler
+        makes it more akin to a compiler then an assembler**
       </p>
+      <p style="color: #a0a0a0; font-size: 7.6px;">
+        **Once labels are ported
+      </p>
+
     </main>
 
   </div>

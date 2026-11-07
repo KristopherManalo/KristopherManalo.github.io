@@ -13,7 +13,7 @@ import {
     I2_TYPE,
     I3_TYPE,
     M_TYPE,
-} from "./types";
+} from "./../types";
 
 describe("CpuState", () => {
     test("valid CPU state with all fields", () => {
