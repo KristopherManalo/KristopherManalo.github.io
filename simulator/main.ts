@@ -23,7 +23,7 @@ if (!container) {
 }
 
 const editor = monaco.editor.create(container, {
-  value: simple,
+  value: program_16to16,
   language: LANGUAGE_ID,
   theme: "vs-dark",
   automaticLayout: true,
@@ -60,29 +60,6 @@ editor.onDidChangeModelContent(() => {
     lint_program();
   }, 900);
 });
-
-// async function load_program(source: string) {
-//   const instructions = await parse(source);
-
-//   console.log("Initial:", core);
-//   start_core(core);
-
-//   for (const inst of instructions) {
-//     console.log(`${inst.opcode}, 
-// operands: ${inst.operands}, 
-// immediate: ${inst.immediate},
-// source line: ${inst.sourceLine};
-// `);  
-//   }
-//   while (!core.halted) {
-//     const inst = instructions[core.pc];
-//     if (!inst) break;
-//     execute_instruction(core, inst);
-//     update_registers(core);
-//   }
-
-//   console.log("Final:", core);
-// }
 
 async function lint_program() {
   const source = editor.getValue();
