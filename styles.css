@@ -400,6 +400,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 0px;
+  height: 30px;
 }
 
 .editor-button {
@@ -410,6 +411,7 @@ body {
   font-size: 0.9rem;
   font-family: inherit;
   cursor: pointer;
+  min-width: 2rem;
 }
 .editor-button:hover {
   background-color: #2a2a4a;
@@ -417,13 +419,47 @@ body {
   border-color: #666666;
 }
 
+.program-label {
+  color: #888888;
+  font-size: 0.8rem;
+  align-self: center;
+  padding-right: 6px;
+  padding-left: 10px;
+}
+
+.program-select {
+  background-color: #1e1e1e;
+  color: #888888;
+  border: 1px solid #444444;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+.program-select:hover {
+  border-color: #666666;
+}
+
+.program-select option {
+  background-color: #1e1e1e;
+  color: #888888;
+  padding-left:10px;
+}
+
+
+.editor-footer {
+  display: flex;
+  flex-direction: row;
+}
+
 .registers {
   padding-left: 10px;
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 10px;
-  justify-content: center;
-  width: 100wh;
+  width: 100%;
+  margin-top: 8px;
 }
 
 .reg {
@@ -434,4 +470,55 @@ body {
   font-size: 0.8rem;
   font-family: inherit;
   /* cursor: pointer; */
+}
+
+.reg-label {
+  color: #888888;
+  font-size: 0.8rem;
+  align-self: center;
+  padding-right: 6px;
+}
+
+.register-select {
+  background-color: #1e1e1e;
+  color: #888888;
+  border: 1px solid #444444;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.register-select:hover {
+  border-color: #666666;
+}
+
+.register-select option {
+  background-color: #1e1e1e;
+  color: #888888;
+}
+
+.memory {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.memory-select {
+  min-width: 5rem;
+}
+
+.memory-value-input {
+  width: 4rem;
+  text-align: center;
+  cursor: text;
+}
+
+.memory-value-input:focus {
+  outline: none;
+  border-color: #666666;
 }

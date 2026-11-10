@@ -242,40 +242,36 @@ function encode_r(line: string, sourceLine: number): Instruction {
     };
 }
 
+const BRANCH_OFFSETS = new Set([-5, 5, 20, -20, 10, -10, 12, 50]);
+
 function encode_b(line: string, sourceLine: number): Instruction {
     line = line.toLowerCase();
-    var reg: number | null = null;
-    var offset: number | null = null;
-    var label: string | null = null;
-    try {
-        [reg, offset] = get_regimm(line);
-    }
-    catch (error) {
-        [reg, label] = get_reglab(line);
-    }
-    if (label) {
-        throw Error("Label's not yet ported")
-    }
-    else {
-        switch(offset) {
-            case -5:
-            case 5:
-            case 20:
-            case -20:
-            case 10:
-            case -10:
-            case 12:
-            case 50:
-                break;
-            case 0:
-                throw Error("branch to self");
-            default:
-                throw Error("not yet ported");
+
+    let reg: number | undefined;
+    let offset: number | null = null;
+
+    if (line.substring(0, 3) === "bco") {
+        offset = get_imm(line);
+    } else {
+        try {
+            [reg, offset] = get_regimm(line);
+        } catch (error) {
+            const [, label] = get_reglab(line);
+            throw Error(`Label '${label}' is not yet ported`);
         }
     }
+
+    if (offset === 0) {
+        throw Error("branch to self");
+    }
+    if (!BRANCH_OFFSETS.has(offset)) {
+        throw (`illegal offset: use
+    -5, 5, 20, -20, 10, -10, 12, 50`);
+    }
+
     return {
-        opcode: line.substring(0,3),
-        operands: [reg],
+        opcode: line.substring(0, 3),
+        operands: reg === undefined ? [] : [reg],
         sourceLine: sourceLine,
         immediate: offset
     };

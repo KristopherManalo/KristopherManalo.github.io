@@ -64,10 +64,10 @@ describe("Parser - Single Instruction Tests", () => {
         });
 
         it("parses BCO instruction", async () => {
-            const result = await parse("bco r3 #-10\n");
+            const result = await parse("bco #-10\n");
             expect(result.instructions).toHaveLength(1);
             expect(result.instructions[0].opcode).toBe("bco");
-            expect(result.instructions[0].operands).toEqual([3]);
+            expect(result.instructions[0].operands).toHaveLength(0);
             expect(result.instructions[0].immediate).toBe(-10);
         });
     });
@@ -179,7 +179,7 @@ describe("Complete Run Through", () => {
             xor r5 r6
             beq r1 #-5
             blt r2 #10
-            bco r3 #-10
+            bco #-10
             jmp #50
             lsl r1 #20
             adi r4 #-4
@@ -204,7 +204,7 @@ describe("Complete Run Through", () => {
         expect(result.instructions[6].operands).toEqual([2]);
         expect(result.instructions[6].immediate).toBe(10);
         expect(result.instructions[7].opcode).toBe("bco");
-        expect(result.instructions[7].operands).toEqual([3]);
+        expect(result.instructions[7].operands).toHaveLength(0);
         expect(result.instructions[7].immediate).toBe(-10);
         expect(result.instructions[8].opcode).toBe("jmp");
         expect(result.instructions[8].immediate).toBe(50);
