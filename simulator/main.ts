@@ -10,8 +10,9 @@ import { create_core, execute_instruction, reset_core, start_core } from "./core
 import { simple } from "./samplePrograms/simple";
 import {
     update_registers,
-    populate_memory_select,
-    sync_memory_value,
+    initialize_memory_view,
+    update_memory_cell,
+    update_memory_view,
 } from "./ui";
 
 self.MonacoEnvironment = {
@@ -19,6 +20,8 @@ self.MonacoEnvironment = {
     return new EditorWorker();
   },
 };
+
+let isStep = false;
 
 const container = document.getElementById("editor");
 
@@ -40,12 +43,8 @@ const editor = monaco.editor.create(container, {
 });
 
 const core = create_core();
-
-populate_memory_select(
-    document.getElementById("memory-select") as HTMLSelectElement
-);
-
 let program: ParseResult;
+initialize_memory_view();
 
 console.log("Monaco initialized", editor);
 
@@ -60,8 +59,24 @@ assembleButton?.addEventListener("click", () => {
 
 const stepThroughButton = document.getElementById("step-through");
 
-stepThroughButton?.addEventListener("click", () => {
+stepThroughButton?.addEventListener("click", async () => {
+  // console.log("isStep =",isStep);
+  if (!isStep) {
+    reset_core(core);
+    start_core(core);
+    isStep = true;
+    const source = editor.getValue();
+    program = await parse(source);
+    // console.log(program);
+  }
+  else {
+    step_through();
+  }
+});
 
+const resetButton = document.getElementById("reset");
+
+resetButton?.addEventListener("click", () => {
 });
 
 const programSelector = document.getElementById(
@@ -120,7 +135,7 @@ editor.onDidChangeModelContent(() => {
   clearTimeout(lintTimeout);
 
   lintTimeout = setTimeout(() => {
-    console.log("program linted :3");
+    // console.log("program linted :3");
     lint_program();
   }, 900);
 });
@@ -150,25 +165,53 @@ async function lint_program() {
 
 async function assemble_program() {
   const source = editor.getValue();
+  isStep = false;
 
   try {
     program = await parse(source);
     reset_core(core);
     start_core(core);
-    console.log(program);
+    // console.log(program);
+    console.log(core);
 
     while (!core.halted) {
       const inst = program.instructions[core.pc];
-      if (!inst) break;
+      if (!inst) {
+        core.halted = true;
+        break;
+      }
       execute_instruction(core, inst);
-      update_registers(core);
-      sync_memory_value(core);
     }
+    update_registers(core);
+    update_memory_view(core.memory);
+    console.log(core);
   }
   catch (error) {
     console.log("assemble program error", error);
   }
 }
 
+let executionDecoration: string[] = [];
+
 async function step_through() {
+  if (!program.instructions[core.pc]) {
+    executionDecoration = editor.deltaDecorations(
+      executionDecoration,
+      []
+    );
+    isStep = false;
+    return;
+  }
+  const sourceLine = program.instructions[core.pc].sourceLine;
+  execute_instruction(core, program.instructions[core.pc]);
+  executionDecoration = editor.deltaDecorations(
+    executionDecoration, 
+    [{
+      range: new monaco.Range(sourceLine, 1, sourceLine, 1),
+      options: {
+        isWholeLine: true,
+        className: "executing-line"
+      }
+  }]);
+  update_registers(core);
 }
