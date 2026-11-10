@@ -419,6 +419,10 @@ body {
   border-color: #666666;
 }
 
+.executing-line {
+  background: rgba(255, 200, 0, 0.15);
+}
+
 .program-label {
   color: #888888;
   font-size: 0.8rem;
@@ -509,11 +513,13 @@ body {
 }
 
 .memory-select {
-  min-width: 5rem;
+  min-width: 4rem;
+  max-width: 4rem;
+  text-align: center;
 }
 
 .memory-value-input {
-  width: 4rem;
+  width: 6rem;
   text-align: center;
   cursor: text;
 }
@@ -521,4 +527,142 @@ body {
 .memory-value-input:focus {
   outline: none;
   border-color: #666666;
+}
+
+/* ========================================
+   Memory Menu - Collapsible Core Memory Map
+   ======================================== */
+.memory-menu {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.memory-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: transparent;
+  color: #888888;
+  border: 1px solid #444444;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.memory-menu-toggle:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.memory-menu-toggle:focus {
+  outline: none;
+  border-color: #666666;
+}
+
+.menu-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+  vertical-align: middle;
+}
+
+.memory-menu-toggle[aria-expanded="true"] .menu-arrow {
+  transform: rotate(180deg);
+}
+
+.memory-menu-panel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #3a3a5c;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  margin-top: 4px;
+  background-color: #15151f;
+}
+
+.memory-menu-panel[hidden] {
+  display: none;
+}
+
+.memory-menu-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-bottom: 1px solid #3a3a5c;
+  background-color: #1e1e2a;
+}
+
+.memory-menu-title {
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: bold;
+}
+
+.memory-menu-hint {
+  color: #888888;
+  font-size: 0.72rem;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 1px;
+  padding: 2px;
+  max-height: 220px;
+  overflow-y: auto;
+  background-color: #0f0f18;
+}
+
+.memory-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 1px 0;
+  cursor: pointer;
+  background-color: #15151f;
+  border: 1px solid transparent;
+}
+
+.memory-cell:hover {
+  background-color: #2a2a4a;
+  border-color: #4a4a6a;
+}
+
+.memory-cell .cell-addr {
+  color: #6a6a8a;
+  font-size: 0.56rem;
+  line-height: 1;
+}
+
+.memory-cell .cell-val {
+  color: #c8f0c0;
+  font-size: 0.66rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.memory-grid .cell-input {
+  min-width: 8ch;
+  box-sizing: border-box;
+  padding: 0 2px;
+  background-color: #0f0f18;
+  color: #ffffff;
+  border: 1px solid #666666;
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 0.62rem;
+  text-align: center;
+  outline: none;
 }

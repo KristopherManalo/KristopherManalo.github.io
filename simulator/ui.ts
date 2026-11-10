@@ -22,24 +22,6 @@ export function update_registers(core: CpuState): void {
 const MEMORY_SIZE = 256;
 
 /**
- * Builds the memory address <select> with one option per byte address
- * (0x00 - 0xFF). Read-only UI setup — building options does not mutate the
- * simulator. Called once on load.
- */
-export function populate_memory_select(select: HTMLSelectElement): void {
-    select.replaceChildren();
-    for (let address = 0; address < MEMORY_SIZE; address++) {
-        const option = document.createElement("option");
-        option.value = String(address);
-        option.textContent = `0x${address
-            .toString(16)
-            .toUpperCase()
-            .padStart(2, "0")}`;
-        select.appendChild(option);
-    }
-}
-
-/**
  * Reflects the currently selected address's live memory byte into the value
  * <input>. The <input> is the modifiable element, but its change is
  * intentionally NOT written back into the simulator — that wiring is left for

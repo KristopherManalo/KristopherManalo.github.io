@@ -227,17 +227,53 @@
         </div>
         <div class="memory">
           <label for="memory-select" class="reg-label">Memory</label>
-          <select id="memory-select" class="register-select memory-select"></select>
+          <!-- <select id="memory-select" class="register-select memory-select"></select> -->
+          <input 
+            id="memory-select" 
+            class="register-select memory-select"
+            type="text"
+            aria-label="Memory address"
+          />
           <label class="reg-label">Value</label>
           <input
             id="memory-value"
             class="register-select memory-value-input"
             type="text"
-            value="0x00"
+            value="0000 0000"
             aria-label="Memory value"
           />
         </div>
+
       </div>
+        <div class="memory-menu">
+          <button
+            id="memory-menu-toggle"
+            class="memory-menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="memory-menu-panel"
+          >
+            Memory Map
+            <span class="menu-arrow"></span>
+          </button>
+          <div
+            class="memory-menu-panel"
+            id="memory-menu-panel"
+            role="region"
+            aria-label="Core memory map"
+            hidden
+          >
+            <div class="memory-menu-toolbar">
+              <span class="memory-menu-title">
+                Core Memory — 256 bytes
+              </span>
+              <span class="memory-menu-hint">
+                Click to edit · hex / decimal / binary (b… / 0b… or with spaces) · Enter or click away to save
+              </span>
+            </div>
+            <div class="memory-grid" id="memory-grid"></div>
+          </div>
+        </div>
       <script type="module">
         import './simulator/main.ts';
       </script>
@@ -255,6 +291,9 @@
 
   <!-- Expand button functionality -->
   <script src="scripts/expand-button.js" defer></script>
+
+  <!-- Collapsible core memory menu (UI only) -->
+  <script src="scripts/memory-menu.js" defer></script>
 
 </body>
 </html>
