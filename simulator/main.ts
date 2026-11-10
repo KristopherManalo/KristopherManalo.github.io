@@ -6,9 +6,13 @@ import { parse } from "./core/parser"
 import { LANGUAGE_ID } from "./language";
 import { program_16to16 } from "./samplePrograms/16to16";
 import { Instruction, ParseResult } from "./core/types";
-import { create_core, execute_instruction, start_core } from "./core/cpu";
+import { create_core, execute_instruction, reset_core, start_core } from "./core/cpu";
 import { simple } from "./samplePrograms/simple";
-import { update_registers } from "./ui";
+import {
+    update_registers,
+    populate_memory_select,
+    sync_memory_value,
+} from "./ui";
 
 self.MonacoEnvironment = {
   getWorker() {
@@ -23,7 +27,7 @@ if (!container) {
 }
 
 const editor = monaco.editor.create(container, {
-  value: program_16to16,
+  value: simple,
   language: LANGUAGE_ID,
   theme: "vs-dark",
   automaticLayout: true,
@@ -36,6 +40,11 @@ const editor = monaco.editor.create(container, {
 });
 
 const core = create_core();
+
+populate_memory_select(
+    document.getElementById("memory-select") as HTMLSelectElement
+);
+
 let program: ParseResult;
 
 console.log("Monaco initialized", editor);
@@ -46,8 +55,63 @@ assembleButton?.addEventListener("click", () => {
   const source = editor.getValue();
   if (import.meta.env.DEV) console.log("Editor text:\n", source);
 
-  // load_program(source)
   assemble_program();
+});
+
+const stepThroughButton = document.getElementById("step-through");
+
+stepThroughButton?.addEventListener("click", () => {
+
+});
+
+const programSelector = document.getElementById(
+  "program-select"
+) as HTMLSelectElement;
+const importInput = document.getElementById(
+  "program-import"
+) as HTMLInputElement;
+importInput.addEventListener("change", async () => {
+  const file = importInput.files?.[0];
+  if (!file) return;
+
+  const source = await file.text();
+  editor.setValue(source);
+
+  // Reset so the same file can be re-imported and the dropdown returns to
+  // its initial state once the file picker closes.
+  importInput.value = "";
+  programSelector.value = "new";
+});
+
+programSelector?.addEventListener("change", () => {
+  const selection = programSelector.value;
+
+  switch (selection) {
+    case "simple":
+      editor.setValue(simple);
+      break;
+    case "16to16":
+      editor.setValue(program_16to16);
+      break;
+    case "new":
+      editor.setValue("");
+      break;
+    case "import":
+      // Trigger the OS file-select dialog on the hidden input.
+      importInput?.click();
+      break;
+    case "export":
+      let curr: string = editor.getValue();
+      const blob = new Blob([curr], { type: "test/plain"});
+      const url = URL.createObjectURL(blob);
+
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "program.fga";
+      anchor.click();
+      URL.revokeObjectURL(url);
+      break;
+  }
 });
 
 let lintTimeout: ReturnType<typeof setTimeout>;
@@ -89,6 +153,7 @@ async function assemble_program() {
 
   try {
     program = await parse(source);
+    reset_core(core);
     start_core(core);
     console.log(program);
 
@@ -97,9 +162,13 @@ async function assemble_program() {
       if (!inst) break;
       execute_instruction(core, inst);
       update_registers(core);
+      sync_memory_value(core);
     }
   }
   catch (error) {
     console.log("assemble program error", error);
   }
+}
+
+async function step_through() {
 }

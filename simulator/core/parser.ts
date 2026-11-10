@@ -247,35 +247,39 @@ function encode_b(line: string, sourceLine: number): Instruction {
     var reg: number | null = null;
     var offset: number | null = null;
     var label: string | null = null;
-    try {
-        [reg, offset] = get_regimm(line);
-    }
-    catch (error) {
-        [reg, label] = get_reglab(line);
-    }
-    if (label) {
-        throw Error("Label's not yet ported")
+    if (line.substring(0,3) === "bco") {
+        offset = get_imm(line);
     }
     else {
-        switch(offset) {
-            case -5:
-            case 5:
-            case 20:
-            case -20:
-            case 10:
-            case -10:
-            case 12:
-            case 50:
-                break;
-            case 0:
-                throw Error("branch to self");
-            default:
-                throw Error("not yet ported");
+        try {
+            [reg, offset] = get_regimm(line);
         }
+        catch (error) {
+            [reg, label] = get_reglab(line);
+        }
+        if (label) {
+            throw Error("Label's not yet ported")
+        }
+    }
+    switch(offset) {
+        case -5:
+        case 5:
+        case 20:
+        case -20:
+        case 10:
+        case -10:
+        case 12:
+        case 50:
+            break;
+        case 0:
+            throw Error("branch to self");
+        default:
+            throw (`illegal offset: use
+    -5, 5, 20, -20, 10, -10, 12, 50`);
     }
     return {
         opcode: line.substring(0,3),
-        operands: [reg],
+        operands: (!reg) ? [] : [reg],
         sourceLine: sourceLine,
         immediate: offset
     };

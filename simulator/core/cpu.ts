@@ -1,10 +1,13 @@
 import { CpuState, Instruction, InstructionType, } from "./types";
 
+const REGISTER_ARRAY_SIZE = 8;
+const MEMORY_ARRAY_SIZE = 256;
+
 export function create_core(): CpuState {
     var core: CpuState = {
         pc: 0,
-        registers: new Uint8Array(8).fill(0),
-        memory: new Array(256).fill(0),
+        registers: new Uint8Array(REGISTER_ARRAY_SIZE).fill(0),
+        memory: new Array(MEMORY_ARRAY_SIZE).fill(0),
         halted: true,
         carry_out: false,
     };
@@ -13,6 +16,18 @@ export function create_core(): CpuState {
 
 export function start_core(core: CpuState): void {
     core.halted = false;
+}
+
+export function reset_core(core: CpuState): void {
+    core.pc = 0;
+    for (let i = 0; i < REGISTER_ARRAY_SIZE; ++i) {
+        core.registers[i] = 0;
+    }
+    for (let i = 0; i < MEMORY_ARRAY_SIZE; ++i) {
+        core.registers[i] = 0;
+    }
+    core.halted = true;
+    core.carry_out = false;
 }
 
 type InstructionHandler 

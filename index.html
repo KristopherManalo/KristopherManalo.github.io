@@ -183,19 +183,60 @@
       <div class="editor-frame">
         <div class="editor-header">          
           <button id="assemble" class="editor-button">Assemble*</button>
-          <button title="Step-through"id="step-through" class="editor-button">↓</button>
-          <div class="registers">
-            <div class="reg">R0:<br><span id="reg-0">0x00</span></div>
-            <div class="reg">R1:<br><span id="reg-1">0x00</span></div>
-            <div class="reg">R2:<br><span id="reg-2">0x00</span></div>
-            <div class="reg">R3:<br><span id="reg-3">0x00</span></div>
-            <div class="reg">R4:<br><span id="reg-4">0x00</span></div>
-            <div class="reg">R5:<br><span id="reg-5">0x00</span></div>
-            <div class="reg">R6:<br><span id="reg-6">0x00</span></div>
-            <div class="reg">R7:<br><span id="reg-7">0x00</span></div>
+          <button title="Step-through" id="step-through" class="editor-button">
+            ↓</button>
+          <button title="Reset" id="reset" class="editor-button">
+            ↻</button>
+          <div class="program">
+            <label for="program-select" class="program-label">Program</label>
+            <select id="program-select" class="program-select">
+              <optgroup label="Examples">
+                <option value="simple">Simple</option>
+                <option value="16to16">Fixed to Float</option>
+              </optgroup>
+
+              <optgroup label="Files">
+                <option value="new">New Program</option>
+                <option value="import">Import assembly .fga</option>
+                <option value="export">Export assembly .fga</option>
+              </optgroup>
+            </select>
+            <input
+              id="program-import"
+              type="file"
+              accept=".fga,.asm,.txt"
+              hidden
+            />
           </div>
         </div>
         <div id="editor"></div>
+      </div>
+      <div class="editor-footer">
+        <div class="registers">
+          <label for="register-select" class="reg-label">Registers</label>
+          <select id="register-select" class="register-select">
+            <option value="0x00">R0 = 0x00</option>
+            <option value="0x00">R1 = 0x00</option>
+            <option value="0x00">R2 = 0x00</option>
+            <option value="0x00">R3 = 0x00</option>
+            <option value="0x00">R4 = 0x00</option>
+            <option value="0x00">R5 = 0x00</option>
+            <option value="0x00">R6 = 0x00</option>
+            <option value="0x00" selected>R7 = 0x00</option>
+          </select>
+        </div>
+        <div class="memory">
+          <label for="memory-select" class="reg-label">Memory</label>
+          <select id="memory-select" class="register-select memory-select"></select>
+          <label class="reg-label">Value</label>
+          <input
+            id="memory-value"
+            class="register-select memory-value-input"
+            type="text"
+            value="0x00"
+            aria-label="Memory value"
+          />
+        </div>
       </div>
       <script type="module">
         import './simulator/main.ts';
