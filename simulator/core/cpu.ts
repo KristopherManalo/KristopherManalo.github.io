@@ -24,7 +24,7 @@ export function reset_core(core: CpuState): void {
         core.registers[i] = 0;
     }
     for (let i = 0; i < MEMORY_ARRAY_SIZE; ++i) {
-        core.registers[i] = 0;
+        core.memory[i] = 0;
     }
     core.halted = true;
     core.carry_out = false;

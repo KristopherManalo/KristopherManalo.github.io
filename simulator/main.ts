@@ -10,7 +10,9 @@ import { create_core, execute_instruction, reset_core, start_core } from "./core
 import { simple } from "./samplePrograms/simple";
 import {
     update_registers,
-    sync_memory_value,
+    initialize_memory_view,
+    update_memory_cell,
+    update_memory_view,
 } from "./ui";
 
 self.MonacoEnvironment = {
@@ -42,6 +44,7 @@ const editor = monaco.editor.create(container, {
 
 const core = create_core();
 let program: ParseResult;
+initialize_memory_view();
 
 console.log("Monaco initialized", editor);
 
@@ -57,14 +60,14 @@ assembleButton?.addEventListener("click", () => {
 const stepThroughButton = document.getElementById("step-through");
 
 stepThroughButton?.addEventListener("click", async () => {
-  console.log("isStep =",isStep);
+  // console.log("isStep =",isStep);
   if (!isStep) {
     reset_core(core);
     start_core(core);
     isStep = true;
     const source = editor.getValue();
     program = await parse(source);
-    console.log(program);
+    // console.log(program);
   }
   else {
     step_through();
@@ -132,7 +135,7 @@ editor.onDidChangeModelContent(() => {
   clearTimeout(lintTimeout);
 
   lintTimeout = setTimeout(() => {
-    console.log("program linted :3");
+    // console.log("program linted :3");
     lint_program();
   }, 900);
 });
@@ -168,7 +171,8 @@ async function assemble_program() {
     program = await parse(source);
     reset_core(core);
     start_core(core);
-    console.log(program);
+    // console.log(program);
+    console.log(core);
 
     while (!core.halted) {
       const inst = program.instructions[core.pc];
@@ -177,9 +181,10 @@ async function assemble_program() {
         break;
       }
       execute_instruction(core, inst);
-      update_registers(core);
-      sync_memory_value(core);
     }
+    update_registers(core);
+    update_memory_view(core.memory);
+    console.log(core);
   }
   catch (error) {
     console.log("assemble program error", error);
