@@ -418,6 +418,39 @@ body {
   color: #ffffff;
   border-color: #666666;
 }
+.editor-button:disabled{
+  color: #6a6a8a;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.editor-button-highlight {
+  background-color: #dbe272;
+  color: #1a1a2e;
+  border: 1px solid #c8cf65;
+  padding: 0px 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  min-width: 2rem;
+  font-weight: 600;
+}
+.editor-button-highlight:hover {
+  background-color: #e7ee8f;
+  border-color: #dbe272;
+  color: #000000;
+}
+.editor-button-highlight:focus-visible {
+  outline: 2px solid #dbe272;
+  outline-offset: 2px;
+}
+.editor-button-highlight:disabled {
+  background-color: #b7bd5f;
+  border-color: #b7bd5f;
+  color: #1a1a2e;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .executing-line {
   background: rgba(255, 200, 0, 0.15);
@@ -454,6 +487,8 @@ body {
 .editor-footer {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .registers {
@@ -462,7 +497,7 @@ body {
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  width: 100%;
+  flex: 0 1 auto;
   margin-top: 8px;
 }
 
@@ -508,7 +543,7 @@ body {
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  width: 100%;
+  flex: 0 1 auto;
   margin-top: 8px;
 }
 
