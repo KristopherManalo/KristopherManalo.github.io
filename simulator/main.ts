@@ -51,7 +51,14 @@ initialize_memory_view();
 
 console.log("Monaco initialized", editor);
 
-const assembleButton = document.getElementById("assemble");
+const assembleButton = 
+  document.getElementById("assemble") as HTMLButtonElement | null;
+const stepThroughButton = 
+  document.getElementById("step-through") as HTMLButtonElement | null;
+const resetButton = 
+  document.getElementById("reset") as HTMLButtonElement | null;
+const cancelButton = 
+  document.getElementById("cancel") as HTMLButtonElement | null;
 
 assembleButton?.addEventListener("click", () => {
   const source = editor.getValue();
@@ -60,7 +67,6 @@ assembleButton?.addEventListener("click", () => {
   assemble_program();
 });
 
-const stepThroughButton = document.getElementById("step-through");
 
 stepThroughButton?.addEventListener("click", async () => {
   // console.log("isStep =",isStep);
@@ -71,17 +77,27 @@ stepThroughButton?.addEventListener("click", async () => {
     const source = editor.getValue();
     program = await parse(source);
     apply_directives(core, program.directives);
-    // console.log(program);
+    editor.updateOptions({
+      readOnly: true
+    });
+    resetButton!.disabled = false;
+    cancelButton!.disabled = false;
+    stepThroughButton.classList.add("editor-button-highlight");
+    stepThroughButton.classList.remove("editor-button");
+    console.log(program);
   }
   else {
     step_through();
   }
 });
 
-const resetButton = document.getElementById("reset");
 
 resetButton?.addEventListener("click", () => {
   reset();
+});
+
+cancelButton?.addEventListener("click", () =>{
+  cancel();
 });
 
 const programSelector = document.getElementById(
@@ -203,6 +219,12 @@ async function assemble_program() {
     update_registers(core);
     update_memory_view(core.memory);
     console.log(core);
+
+    editor.updateOptions({
+      readOnly: false
+    });
+    stepThroughButton!.classList.add("editor-button");
+    stepThroughButton!.classList.remove("editor-button-highlight");
   }
   catch (error) {
     console.log("assemble program error", error);
@@ -212,11 +234,17 @@ async function assemble_program() {
 
 async function step_through() {
   if (!program.instructions[core.pc]) {
-    executionDecoration = editor.deltaDecorations(
-      executionDecoration,
-      []
-    );
-    isStep = false;
+    cancel();
+    // executionDecoration = editor.deltaDecorations(
+    //   executionDecoration,
+    //   []
+    // );
+    // isStep = false;
+    // editor.updateOptions({
+    //   readOnly: false
+    // });
+    // resetButton!.disabled = true;
+    // cancelButton!.disabled = true;
     return;
   }
   const sourceLine = program.instructions[core.pc].sourceLine;
@@ -230,6 +258,11 @@ async function step_through() {
         className: "executing-line"
       }
   }]);
+  editor.setPosition({
+    lineNumber: sourceLine,
+    column: 1,
+  });
+  editor.revealLineInCenter(sourceLine);
   update_registers(core);
   update_memory_view(core.memory);
 }
@@ -245,4 +278,18 @@ async function reset() {
   const source = editor.getValue();
   program = await parse(source);
   apply_directives(core, program.directives);
+}
+
+async function cancel() {
+  executionDecoration = editor.deltaDecorations(
+    executionDecoration,
+    []
+  );
+  isStep = false;
+  reset_core(core);
+  start_core(core);
+  resetButton!.disabled = true;
+  cancelButton!.disabled = true;
+  stepThroughButton!.classList.add("editor-button");
+  stepThroughButton!.classList.remove("editor-button-highlight");
 }
