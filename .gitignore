@@ -11,3 +11,6 @@ dist/
 *.tsbuildinfo
 
 *_n.sh
+
+*.py
+

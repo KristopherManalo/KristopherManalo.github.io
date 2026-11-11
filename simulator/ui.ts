@@ -1,5 +1,15 @@
 import { CpuState } from "./core/types";
 
+type MemoryWriteCallback = (address: number, value: number) => void;
+
+let onMemoryWrite: MemoryWriteCallback | null = null;
+
+export function set_memory_write_callback(
+    callback: MemoryWriteCallback
+): void {
+    onMemoryWrite = callback;
+}
+
 export function update_registers(core: CpuState): void {
     const select = document.getElementById(
         "register-select"
@@ -139,6 +149,7 @@ function save_editor(): void {
     const value = parse_input(input.value);
 
     cell.dataset.value = value.toString();
+    onMemoryWrite?.(parseInt(cell.dataset.addr!, 16), value);
     cell.classList.remove("editing");
 
     input.replaceWith(cell);
@@ -178,3 +189,4 @@ export function update_memory_cell(address: number, value: number): void {
         valueElement.textContent = `0x${value.toString(16).padStart(2, "0")}`;
     }
 }
+
