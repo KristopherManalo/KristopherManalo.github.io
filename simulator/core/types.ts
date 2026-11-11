@@ -58,6 +58,18 @@ export function isParseError(t: any): t is ParseError {
 export interface ParseResult {
     instructions: Instruction[];
     errors: ParseError[];
+    directives: ParseMacro[];
+}
+
+export interface ParseMacro {
+    func: string;
+    operands: number[];
+}
+
+export function isParseMacro(t: any): t is ParseMacro {
+    return t
+        && typeof t.func === "string"
+        && Array.isArray(t.operands)
 }
 
 export const S_TYPE = new Set(["nop", "don"]);

@@ -1,5 +1,6 @@
 
 import * as monaco from "monaco-editor";
+import { inherits } from "node:util";
 
 export const LANGUAGE_ID = "freaky-gojo-asm";
 
@@ -34,6 +35,9 @@ monaco.languages.setMonarchTokensProvider(LANGUAGE_ID, {
             // Labels (e.g. .NORMALIZE)
             [/^\s*\.[\w]+/, "type.identifier"],
 
+            // Registers (r0-r7)
+            [/r[0-7]\b/i, "register"],
+
             // Instructions
             [/[a-zA-Z]+/, {
                 cases: {
@@ -42,17 +46,31 @@ monaco.languages.setMonarchTokensProvider(LANGUAGE_ID, {
                 },
             }],
 
-            // Registers (r0-r7)
-            [/r[0-7]\b/i, "variable"],
+            // [/r/, "variable"],
 
             // Immediate values (e.g. #5, #-10)
             [/#-?\d+/, "number"],
 
-            // Decimal numbers
-            [/-?\d+/, "number"],
+            // // Decimal numbers
+            // [/-?\d+/, "number"],
 
-            // Punctuation
-            [/[,:]/, "delimiter"],
+            // // Punctuation
+            // [/[,:]/, "delimiter"],
+
+            // Macros
+            [/^#?[\w]+\s+(0x[0-9a-fA-F]{2}|\d)\s+(0x[0-9a-fA-F]{2}|\d)$/, "annotation"],
         ],
     },
+});
+
+monaco.editor.defineTheme("FGAtheme", {
+    base: "vs-dark",
+    inherit: true,
+    rules: [
+        { token: 'register', foreground: 'FFA500' }, 
+        { token: 'number', foreground: 'B5CEA8'  },
+    ],
+    colors: {
+        "editor.background": "#1E1E1E"
+    }
 });

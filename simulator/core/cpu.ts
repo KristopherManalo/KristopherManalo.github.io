@@ -1,4 +1,4 @@
-import { CpuState, Instruction, InstructionType, } from "./types";
+import { CpuState, Instruction, InstructionType, ParseMacro, } from "./types";
 
 const REGISTER_ARRAY_SIZE = 8;
 const MEMORY_ARRAY_SIZE = 256;
@@ -28,6 +28,15 @@ export function reset_core(core: CpuState): void {
     }
     core.halted = true;
     core.carry_out = false;
+}
+
+export function apply_directives(
+    core: CpuState, 
+    directives: ParseMacro[]
+): void {
+    for(let i = 0; i < directives.length; ++i) {
+        core.memory[directives[i].operands[0]] = directives[i].operands[1];
+    }
 }
 
 type InstructionHandler 

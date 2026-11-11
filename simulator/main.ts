@@ -6,13 +6,14 @@ import { parse } from "./core/parser"
 import { LANGUAGE_ID } from "./language";
 import { program_16to16 } from "./samplePrograms/16to16";
 import { Instruction, ParseResult } from "./core/types";
-import { create_core, execute_instruction, reset_core, start_core } from "./core/cpu";
+import { apply_directives, create_core, execute_instruction, reset_core, start_core } from "./core/cpu";
 import { simple } from "./samplePrograms/simple";
 import {
     update_registers,
     initialize_memory_view,
     update_memory_cell,
     update_memory_view,
+    set_memory_write_callback,
 } from "./ui";
 
 self.MonacoEnvironment = {
@@ -42,6 +43,8 @@ const editor = monaco.editor.create(container, {
   fixedOverflowWidgets: true
 });
 
+monaco.editor.setTheme("FGAtheme");
+
 const core = create_core();
 let program: ParseResult;
 initialize_memory_view();
@@ -67,6 +70,7 @@ stepThroughButton?.addEventListener("click", async () => {
     isStep = true;
     const source = editor.getValue();
     program = await parse(source);
+    apply_directives(core, program.directives);
     // console.log(program);
   }
   else {
@@ -77,6 +81,7 @@ stepThroughButton?.addEventListener("click", async () => {
 const resetButton = document.getElementById("reset");
 
 resetButton?.addEventListener("click", () => {
+  reset();
 });
 
 const programSelector = document.getElementById(
@@ -127,7 +132,13 @@ programSelector?.addEventListener("change", () => {
       URL.revokeObjectURL(url);
       break;
   }
+  reset_core(core);
+  isStep = false;
 });
+
+set_memory_write_callback((address, value) => {
+  core.memory[address] = value;
+})
 
 let lintTimeout: ReturnType<typeof setTimeout>;
 
@@ -163,15 +174,22 @@ async function lint_program() {
   }
 }
 
+let executionDecoration: string[] = [];
+
 async function assemble_program() {
   const source = editor.getValue();
+  executionDecoration = editor.deltaDecorations(
+    executionDecoration,
+    []
+  );
   isStep = false;
 
   try {
     program = await parse(source);
     reset_core(core);
+    apply_directives(core, program.directives);
     start_core(core);
-    // console.log(program);
+    console.log(program);
     console.log(core);
 
     while (!core.halted) {
@@ -191,7 +209,6 @@ async function assemble_program() {
   }
 }
 
-let executionDecoration: string[] = [];
 
 async function step_through() {
   if (!program.instructions[core.pc]) {
@@ -214,4 +231,18 @@ async function step_through() {
       }
   }]);
   update_registers(core);
+  update_memory_view(core.memory);
+}
+
+async function reset() {
+  executionDecoration = editor.deltaDecorations(
+    executionDecoration,
+    []
+  );
+  reset_core(core);
+  start_core(core);
+  isStep = true;
+  const source = editor.getValue();
+  program = await parse(source);
+  apply_directives(core, program.directives);
 }

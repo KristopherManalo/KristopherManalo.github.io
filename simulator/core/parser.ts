@@ -6,12 +6,15 @@ import {
     ParseResult, 
     ParseError,
     isInstruction,
-    isParseError
+    isParseError,
+    ParseMacro,
+    isParseMacro
 } from "./types";
 
 export async function parse(source: string): Promise<ParseResult> {
     let instructions: Instruction[] = [];
     let errors: ParseError[] = [];
+    let directives: ParseMacro[] = [];
 
     let context: ParseContext = {
         sourceLine: 1,
@@ -19,7 +22,7 @@ export async function parse(source: string): Promise<ParseResult> {
         has_label: 0, 
         goto_label: 0, 
         labels: [],
-        current_label: null
+        current_label: null,
     };
 
     for await (const line of streamLines(source)) {
@@ -35,6 +38,9 @@ export async function parse(source: string): Promise<ParseResult> {
             else if(isParseError(inst)) {
                 errors.push(inst);
             }
+            else if(isParseMacro(inst)) {
+                directives.push(inst);
+            }
             else {
                 throw Error("Unreachable section reached, check type check functions")
             }
@@ -46,7 +52,8 @@ export async function parse(source: string): Promise<ParseResult> {
     }
     return { 
         instructions: instructions,
-        errors: errors
+        errors: errors,
+        directives: directives
     };
 }
 
@@ -75,11 +82,65 @@ export async function* streamLines(source: string)
 function parse_line(
     line: string, 
     context: ParseContext
-): Instruction | ParseError | null {
+): Instruction | ParseError | ParseMacro | null {
     // console.log("parsing line");
     line = line.split("//", 1)[0].trim()
 
     if (line.length === 0) return null;
+
+    // if preprocessor directive:
+    if(line[0] == "#") {
+        const match = line.trim().match(/^#LOAD\s+(\S+)\s+(\S+)\s*$/i);
+
+        if (!match) {
+            return {
+                sourceLine: context.sourceLine,
+                message: `invalid directive:
+    ${line}`
+            }
+        }
+
+        function parse_number(arg: string): number {
+            let base = 10;
+            let digits = arg;
+
+            if (/^0x/i.test(arg)) {
+                base = 16;
+                digits = arg.slice(2);
+            } else if (/^0b/i.test(arg)) {
+                base = 2;
+                digits = arg.slice(2);
+            }
+
+            const valid_digits: Record<number, RegExp> = {
+                2: /^[01]+$/,
+                10: /^\d+$/,
+                16: /^[0-9a-f]+$/i
+            };
+
+            if (!valid_digits[base].test(digits)) {
+                // throw new Error(`Invalid numeric argument: ${arg}`);
+            }
+
+            return Number.parseInt(digits, base);
+        }
+
+        const address = parse_number(match[1]);
+        const value = parse_number(match[2]);
+
+        if (address < 0 || address > 255) {
+            // throw new Error(`#LOAD address out of range: ${address}`);
+        }
+
+        if (value < 0 || value > 255) {
+            // throw new Error(`#LOAD value out of range: ${value}`);
+        }
+
+        return {
+            func: match[0],
+            operands: [address, value],
+        }
+    }
 
     // if label push to labels
     if(line[0] == ".") {
