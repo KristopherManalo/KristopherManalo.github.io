@@ -48,7 +48,8 @@ export async function flushInstructionCount() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ count })
+            body: JSON.stringify({ count }),
+            keepalive: true,
         });
 
         const cached = sessionStorage.getItem(CACHE_KEY);
