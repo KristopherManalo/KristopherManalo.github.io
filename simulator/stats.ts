@@ -80,6 +80,8 @@ export async function flushInstructionCount() {
 }
 
 export async function fetchGlobalCount(): Promise<void> {
+    if (typeof document === "undefined") return;
+
     const element = document.getElementById("globalNumber");
 
     try {
@@ -131,6 +133,8 @@ export async function fetchGlobalCount(): Promise<void> {
 }
 
 function updateDisplay() {
+    if (typeof document === "undefined") return;
+
     const element = document.getElementById("globalNumber");
     if (element) {
         element.textContent = globalCount.toLocaleString();
