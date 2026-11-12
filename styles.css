@@ -294,20 +294,62 @@ body {
   overflow-y: auto;
 }
 
+.editor-title-section {
+  display: flex; 
+  justify-content: space-between;
+}
+
+/* .editor-title {
+  padding: 0px; 
+  margin-top: auto;
+  margin-left: 1rem;
+  margin-bottom: auto; 
+  font: inherit;
+} */
+
+/* #globalParam {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  line-height: 1.0;
+  font-size: 0.8rem;
+  margin-right: 1rem;
+  margin-top: 1px;
+}
+#globalNumber {
+  font-size: 1.5rem;
+  color: green
+} */
+.editor-title {
+  padding: 0;
+  margin: 0 0 0 1rem;
+  font: inherit;
+  font-size: 1.1rem;
+}
+
+#globalParam {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.1rem;
+
+  margin-right: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+#globalNumber {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: green;
+}
+
 /* ========================================
    Monaco Editor Container - Embedded in App Space
    ======================================== */
-.editor-placeholder h3 {
-  font-size: 1.5rem;
-  margin: 0 0 8px 0;
-  color: #ffffff;
-}
 
-.editor-placeholder p {
-  max-width: none;
-  margin: 0 0 20px 0;
-  color: #a0a0a0;
-}
 
 .cta-button {
   background-color: transparent;

@@ -16,7 +16,9 @@ import {
     set_memory_write_callback,
 } from "./ui";
 import { Status } from "./status"
-import { flushInstructionCount } from "./stats";
+import { fetchGlobalCount, flushInstructionCount, initializeStats } from "./stats";
+
+initializeStats();
 
 setInterval(() => {
   flushInstructionCount();
