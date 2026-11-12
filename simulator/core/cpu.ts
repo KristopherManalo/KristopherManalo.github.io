@@ -1,3 +1,4 @@
+import { incrementInstructionExecution } from "../stats";
 import { CpuState, Instruction, InstructionType, ParseMacro, } from "./types";
 
 const REGISTER_ARRAY_SIZE = 8;
@@ -70,6 +71,8 @@ export function execute_instruction(
     }
 
     handler(core, inst);
+
+    incrementInstructionExecution();
 }
 
 /**
@@ -246,3 +249,5 @@ function swd(core: CpuState, inst: Instruction): void {
     core.memory[core.registers[reg0]] = core.registers[reg1];
     core.pc++;
 }
+
+

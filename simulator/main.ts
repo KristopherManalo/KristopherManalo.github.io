@@ -16,6 +16,13 @@ import {
     set_memory_write_callback,
 } from "./ui";
 import { Status } from "./status"
+import { fetchGlobalCount, flushInstructionCount, initializeStats } from "./stats";
+
+initializeStats();
+
+setInterval(() => {
+  flushInstructionCount();
+}, 15000);
 
 self.MonacoEnvironment = {
   getWorker() {
@@ -52,7 +59,7 @@ initialize_memory_view();
 
 const statusMessage = new Status("status");
 
-console.log("Monaco initialized", editor);
+if (import.meta.env.DEV) console.log("Monaco initialized", editor);
 
 const assembleButton = 
   document.getElementById("assemble") as HTMLButtonElement | null;
@@ -86,7 +93,6 @@ assembleButton?.addEventListener("click", async () => {
 stepThroughButton?.addEventListener("click", async () => {
   // console.log("isStep =",isStep);
   if (!isStep) {
-    console.log("Hello");
     reset_core(core);
     start_core(core);
     const source = editor.getValue();
@@ -107,7 +113,7 @@ stepThroughButton?.addEventListener("click", async () => {
       cancelButton!.disabled = false;
       stepThroughButton.classList.add("editor-button-highlight");
       stepThroughButton.classList.remove("editor-button");
-      console.log(program);
+      if (import.meta.env.DEV) console.log(program);
     }
   }
   else {
@@ -230,8 +236,10 @@ async function assemble_program() {
     reset_core(core);
     apply_directives(core, program.directives);
     start_core(core);
-    console.log(program);
-    console.log(core);
+    if (import.meta.env.DEV) {
+      console.log(program);
+      console.log(core);
+    }
 
     while (!core.halted) {
       const inst = program.instructions[core.pc];
@@ -243,7 +251,8 @@ async function assemble_program() {
     }
     update_registers_view(core);
     update_memory_view(core.memory);
-    console.log(core);
+    if (import.meta.env.DEV) console.log(core);
+    flushInstructionCount();
 
     editor.updateOptions({
       readOnly: false
@@ -314,5 +323,6 @@ async function cancel() {
   editor.updateOptions({
       readOnly: false
   });
+  flushInstructionCount();
 }
 
