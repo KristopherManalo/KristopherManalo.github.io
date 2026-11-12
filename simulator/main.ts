@@ -24,6 +24,12 @@ setInterval(() => {
   flushInstructionCount();
 }, 15000);
 
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+        flushInstructionCount();
+    }
+});
+
 self.MonacoEnvironment = {
   getWorker() {
     return new EditorWorker();
@@ -252,7 +258,8 @@ async function assemble_program() {
     update_registers_view(core);
     update_memory_view(core.memory);
     if (import.meta.env.DEV) console.log(core);
-    flushInstructionCount();
+    // flushInstructionCount();
+
 
     editor.updateOptions({
       readOnly: false
@@ -323,6 +330,6 @@ async function cancel() {
   editor.updateOptions({
       readOnly: false
   });
-  flushInstructionCount();
+  // flushInstructionCount();
 }
 
