@@ -10,7 +10,7 @@ export function set_memory_write_callback(
     onMemoryWrite = callback;
 }
 
-export function update_registers(core: CpuState): void {
+export function update_registers_view(core: CpuState): void {
     const select = document.getElementById(
         "register-select"
     ) as HTMLSelectElement | null;
