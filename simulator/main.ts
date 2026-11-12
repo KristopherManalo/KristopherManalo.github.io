@@ -9,12 +9,13 @@ import { Instruction, ParseResult } from "./core/types";
 import { apply_directives, create_core, execute_instruction, reset_core, start_core } from "./core/cpu";
 import { simple } from "./samplePrograms/simple";
 import {
-    update_registers,
+    update_registers_view,
     initialize_memory_view,
     update_memory_cell,
     update_memory_view,
     set_memory_write_callback,
 } from "./ui";
+import { Status } from "./status"
 
 self.MonacoEnvironment = {
   getWorker() {
@@ -49,6 +50,8 @@ const core = create_core();
 let program: ParseResult;
 initialize_memory_view();
 
+const statusMessage = new Status("status");
+
 console.log("Monaco initialized", editor);
 
 const assembleButton = 
@@ -60,31 +63,52 @@ const resetButton =
 const cancelButton = 
   document.getElementById("cancel") as HTMLButtonElement | null;
 
-assembleButton?.addEventListener("click", () => {
+
+assembleButton?.addEventListener("click", async () => {
   const source = editor.getValue();
   if (import.meta.env.DEV) console.log("Editor text:\n", source);
-
-  assemble_program();
+  try {
+    await assemble_program();
+    if (program.errors.length !== 0) {
+      statusMessage.setFailure();
+    }
+    else {
+      statusMessage.setSuccess();
+    }
+  }
+  catch (error) {
+    console.log(error);
+    statusMessage.setFailure();
+  }
 });
 
 
 stepThroughButton?.addEventListener("click", async () => {
   // console.log("isStep =",isStep);
   if (!isStep) {
+    console.log("Hello");
     reset_core(core);
     start_core(core);
-    isStep = true;
     const source = editor.getValue();
     program = await parse(source);
-    apply_directives(core, program.directives);
-    editor.updateOptions({
-      readOnly: true
-    });
-    resetButton!.disabled = false;
-    cancelButton!.disabled = false;
-    stepThroughButton.classList.add("editor-button-highlight");
-    stepThroughButton.classList.remove("editor-button");
-    console.log(program);
+    if (program.errors.length !== 0) {
+      statusMessage.setFailure();
+    }
+    else {
+      isStep = true;
+      statusMessage.setStep(core);
+      apply_directives(core, program.directives);
+      editor.updateOptions({
+        readOnly: true
+      });
+      update_memory_view(core.memory);
+      update_registers_view(core);
+      resetButton!.disabled = false;
+      cancelButton!.disabled = false;
+      stepThroughButton.classList.add("editor-button-highlight");
+      stepThroughButton.classList.remove("editor-button");
+      console.log(program);
+    }
   }
   else {
     step_through();
@@ -92,12 +116,12 @@ stepThroughButton?.addEventListener("click", async () => {
 });
 
 
-resetButton?.addEventListener("click", () => {
-  reset();
+resetButton?.addEventListener("click", async () => {
+  await reset();
 });
 
-cancelButton?.addEventListener("click", () =>{
-  cancel();
+cancelButton?.addEventListener("click", async () =>{
+  await cancel();
 });
 
 const programSelector = document.getElementById(
@@ -119,7 +143,7 @@ importInput.addEventListener("change", async () => {
   programSelector.value = "new";
 });
 
-programSelector?.addEventListener("change", () => {
+programSelector?.addEventListener("change", async () => {
   const selection = programSelector.value;
 
   switch (selection) {
@@ -165,6 +189,7 @@ editor.onDidChangeModelContent(() => {
     // console.log("program linted :3");
     lint_program();
   }, 900);
+  statusMessage.setModified();
 });
 
 async function lint_program() {
@@ -216,7 +241,7 @@ async function assemble_program() {
       }
       execute_instruction(core, inst);
     }
-    update_registers(core);
+    update_registers_view(core);
     update_memory_view(core.memory);
     console.log(core);
 
@@ -235,16 +260,10 @@ async function assemble_program() {
 async function step_through() {
   if (!program.instructions[core.pc]) {
     cancel();
-    // executionDecoration = editor.deltaDecorations(
-    //   executionDecoration,
-    //   []
-    // );
-    // isStep = false;
-    // editor.updateOptions({
-    //   readOnly: false
-    // });
-    // resetButton!.disabled = true;
-    // cancelButton!.disabled = true;
+    return;
+  }
+  if (core.halted) {
+    cancel();
     return;
   }
   const sourceLine = program.instructions[core.pc].sourceLine;
@@ -263,8 +282,9 @@ async function step_through() {
     column: 1,
   });
   editor.revealLineInCenter(sourceLine);
-  update_registers(core);
+  update_registers_view(core);
   update_memory_view(core.memory);
+  statusMessage.setStep(core);
 }
 
 async function reset() {
@@ -285,11 +305,14 @@ async function cancel() {
     executionDecoration,
     []
   );
+  statusMessage.clear();
   isStep = false;
-  reset_core(core);
-  start_core(core);
   resetButton!.disabled = true;
   cancelButton!.disabled = true;
   stepThroughButton!.classList.add("editor-button");
   stepThroughButton!.classList.remove("editor-button-highlight");
+  editor.updateOptions({
+      readOnly: false
+  });
 }
+

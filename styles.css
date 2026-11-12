@@ -289,7 +289,7 @@ body {
   opacity: 1;
 }
 .app-space {
-  padding: 20px;
+  padding: 10px;
   max-height: calc(100vh - 240px); /* Leave space for header and margins */
   overflow-y: auto;
 }
@@ -400,7 +400,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 0px;
-  height: 30px;
+  min-height: 30px;
 }
 
 .editor-button {
@@ -450,6 +450,15 @@ body {
   color: #1a1a2e;
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+#status {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font: inherit;
+  color: #888888;
+  font-size: 0.75rem;
+  align-self: center;
 }
 
 .executing-line {
@@ -653,8 +662,8 @@ body {
   grid-template-columns: repeat(16, 1fr);
   gap: 1px;
   padding: 2px;
-  max-height: 220px;
-  overflow-y: auto;
+  /* max-height: 220px; */
+  /* overflow-y: auto; */
   background-color: #0f0f18;
 }
 

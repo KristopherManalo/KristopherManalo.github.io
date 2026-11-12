@@ -182,15 +182,20 @@
       <h3 style="padding: 0px; margin: 0px 0px 1px 0px">Freaky Gojo Asm Demo</h4>
       <div class="editor-frame">
         <div class="editor-header">          
-          <button id="assemble" class="editor-button" >
+          <button title="Runs program to completion" 
+            id="assemble" class="editor-button" >
             Assemble*</button>
           <button title="Step-through" id="step-through" class="editor-button" >
             ↓</button>
           <button title="Reset" id="reset" class="editor-button" disabled>
             ↻</button>
-          <button title="Cancel" id="cancel" class="editor-button" disabled>
-            x</button>
+          <button title="Cancel" id="cancel" class="editor-button" 
+            style="font-size: 1.3rem;" disabled>
+            ✕</button>
           </button>
+          <div id="status">
+            
+          </div>
           <div class="program" style="margin-left: auto">
             <label for="program-select" class="program-label">Program</label>
             <select id="program-select" class="program-select">
@@ -231,7 +236,6 @@
         </div>
         <div class="memory">
           <label for="memory-select" class="reg-label">Memory</label>
-          <!-- <select id="memory-select" class="register-select memory-select"></select> -->
           <input 
             id="memory-select" 
             class="register-select memory-select"
@@ -271,8 +275,10 @@
               <span class="memory-menu-title">
                 Core Memory — 256 bytes
               </span>
-              <span class="memory-menu-hint">
-                Click to edit · hex / decimal / binary (b… / 0b… or with spaces) · Enter or click away to save
+              <span title="hex: 0xhh | decimal: ddd | binary: 0bnnnnnnnn or nnnn nnnn"
+                class="memory-menu-hint">
+                <!-- Click to edit · hex / decimal / binary (b… / 0b… or with spaces) · Enter or click away to save -->
+                 Click to edit · hex | decimal | binary · Enter or click away to save
               </span>
             </div>
             <div class="memory-grid" id="memory-grid"></div>
