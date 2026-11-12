@@ -180,13 +180,18 @@
     <!-- Right Side - Major JS Runtime App Space -->
     <main class="app-space">
       <div class="editor-title-section">
-        <h3 class="editor-title">
-          Freaky Gojo Asm Demo</h3>
+        <button type="button" class="editor-title-toggle" aria-expanded="false">
+          <span class="editor-title">Custom ISA Simulator</span>
+          <span class="editor-title-arrow" aria-hidden="true">▼</span>
+        </button>
         <div id="globalParam">
           <span>GLOBAL INSTRUCTIONS EXECUTED</span>
           <span id="globalNumber">---</span>
         </div>
-      </div> 
+      </div>
+      <div class="editor-collapse-section">
+        <p class="editor-collapse-body">Placeholder content — details will go here.</p>
+      </div>
       <div class="editor-frame">
         <div class="editor-header">          
           <button title="Runs program to completion" 
@@ -306,11 +311,80 @@
 
   </div>
 
+  <!-- Expandable Cards -->
+  <section class="projects-section">
+    <h2>Projects</h2>
+    <div class="cards-grid">
+      <article class="project-card">
+        <button type="button" class="project-card-header">
+          <span class="project-card-title">Project Title</span>
+          <span class="project-card-toggle" aria-hidden="true">▼</span>
+        </button>
+        <div class="project-card-body">
+          <p>Placeholder content — details will go here.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <button type="button" class="project-card-header">
+          <span class="project-card-title">Project Title</span>
+          <span class="project-card-toggle" aria-hidden="true">▼</span>
+        </button>
+        <div class="project-card-body">
+          <p>Placeholder content — details will go here.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <button type="button" class="project-card-header">
+          <span class="project-card-title">Project Title</span>
+          <span class="project-card-toggle" aria-hidden="true">▼</span>
+        </button>
+        <div class="project-card-body">
+          <p>Placeholder content — details will go here.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <button type="button" class="project-card-header">
+          <span class="project-card-title">Project Title</span>
+          <span class="project-card-toggle" aria-hidden="true">▼</span>
+        </button>
+        <div class="project-card-body">
+          <p>Placeholder content — details will go here.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <button type="button" class="project-card-header">
+          <span class="project-card-title">Project Title</span>
+          <span class="project-card-toggle" aria-hidden="true">▼</span>
+        </button>
+        <div class="project-card-body">
+          <p>Placeholder content — details will go here.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <button type="button" class="project-card-header">
+          <span class="project-card-title">Project Title</span>
+          <span class="project-card-toggle" aria-hidden="true">▼</span>
+        </button>
+        <div class="project-card-body">
+          <p>Placeholder content — details will go here.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <!-- Expand button functionality -->
   <script src="scripts/expand-button.js" defer></script>
 
   <!-- Collapsible core memory menu -->
   <script src="scripts/memory-menu.js" defer></script>
+
+  <!-- Expandable project cards -->
+  <script src="scripts/cards.js" defer></script>
 
 </body>
 </html>
