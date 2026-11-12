@@ -258,7 +258,7 @@ async function assemble_program() {
     update_registers_view(core);
     update_memory_view(core.memory);
     if (import.meta.env.DEV) console.log(core);
-    // flushInstructionCount();
+    flushInstructionCount();
 
 
     editor.updateOptions({
@@ -330,6 +330,6 @@ async function cancel() {
   editor.updateOptions({
       readOnly: false
   });
-  // flushInstructionCount();
+  flushInstructionCount();
 }
 
