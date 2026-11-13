@@ -1,6 +1,33 @@
-/* ========================================
-   Global Styles - Static & Simple Design
-   ======================================== */
+/* ============================================================
+   Kristopher Manalo Portfolio — Stylesheet
+   ============================================================
+
+   Layout overview (mirrors index.html, top → bottom):
+     1. Header            — name, contact links, email, alternative button
+     2. Main content      — 2-column grid: info sidebar | app space
+     3. Info sidebar      — About / Education + skill groups (expandable)
+     4. App space         — the "Custom ISA Simulator" runtime
+         - title row            (title toggle + global instruction counter)
+         - collapsible panel    (editor collapse info)
+         - editor frame         (Monocypher/monaco editor container)
+         - editor header        (assemble / step / reset / cancel + program)
+         - editor footer        (register + memory inputs)
+         - memory menu          (collapsible 256-byte core memory map)
+     5. Projects        — 2-column grid of expandable project cards
+
+   Design tokens:
+     Background            #1a1a2e   (page)  / #15151f (panels)
+     Borders               #3a3a5c   (containers) / #444444 (controls)
+     Heading text          #ffffff
+     Body text             #e0e0e0   / muted #a0a0a0 / #888888 / #6a6a8a
+     Skill text            #c0c0c0   / value green #c8f0c0
+     Accent (active/cta)   #dbe272   (lime)
+     Mono font: 'Inconsolata', 'Courier New', monospace
+   ============================================================ */
+
+/* ============================================================
+   0. Global resets
+   ============================================================ */
 * {
   box-sizing: border-box;
   scrollbar-gutter: stable;
@@ -15,9 +42,9 @@ body {
   line-height: 1.6;
 }
 
-/* ========================================
-   Header Section - Static Layout
-   ======================================== */
+/* ============================================================
+   1. Header — name, contact links, email
+   ============================================================ */
 .header-section {
   max-width: 1400px;
   margin: 10px auto 10px auto;
@@ -57,10 +84,6 @@ body {
   color: #ffffff;
 }
 
-.contact-section {
-  margin: 0;
-}
-
 .contact-list {
   display: flex;
   justify-content: center;
@@ -77,6 +100,7 @@ body {
   white-space: nowrap;
 }
 
+/* "Alternative Contact (Coming Soon)" — disabled pill button */
 .contact-button {
   background-color: transparent;
   color: #a0a0a0;
@@ -88,9 +112,9 @@ body {
   white-space: nowrap;
 }
 
-/* ========================================
-   Main Content Area - Two Column Layout
-   ======================================== */
+/* ============================================================
+   2. Main content — two-column grid (sidebar | app space)
+   ============================================================ */
 .main-content {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -99,9 +123,9 @@ body {
   margin: 0 auto;
 }
 
-/* ========================================
-   Sidebar (Info Section) - Left Side
-   ======================================== */
+/* ============================================================
+   3. Info sidebar — About / Education
+   ============================================================ */
 .info-sidebar {
   display: flex;
   flex-direction: column;
@@ -128,34 +152,34 @@ body {
   line-height: 1.7;
 }
 
-.sidebar-section ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* ============================================================
+   4. Info sidebar — skills (expandable)
+   ============================================================ */
+
+/* Base group: heading label above a row of skill chips */
+.skill-group {
+  margin-bottom: 20px;
 }
 
-.sidebar-section li {
-  color: #a0a0a0;
-  padding: 6px 8px;
-  border-bottom: none;
+.skill-group h3 {
   font-size: 0.9rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* ========================================
-   Skills Grid - Left Side
-   ======================================== */
+/* "primary" groups are always visible; used to force layout on base groups */
+.skill-group.primary {
+  display: block;
+}
+
+/* Wrap-and-stack container for the skill chips inside a group */
 .skills-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-}
-
-.skill-tag {
-  background-color: transparent;
-  color: #a0a0a0;
-  padding: 6px 12px;
-  font-size: 0.85rem;
-  border: none;
 }
 
 .compressed-skill {
@@ -167,7 +191,7 @@ body {
   border: none;
 }
 
-/* Expandable button below Graphics & Hardware section - matches cta-button style */
+/* "Additional Skills ▼" button — toggles #expanded-content (see expand-button.js) */
 #expandButton {
   display: block;
   margin: 6px 0 6px 0;
@@ -190,18 +214,7 @@ body {
   text-decoration: underline;
 }
 
-/* Always visible fixed position expand button */
-#expandButton.fixed {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  padding: 12px 24px;
-}
-
-/* Expandable content section */
+/* Expanded skill block, hidden until toggled (.show) */
 .expandable-target {
   display: none; /* Hidden by default */
   margin-top: 6px; /* Matches button margin-bottom for equal spacing */
@@ -215,112 +228,22 @@ body {
   margin: 0 0 4px 0;
 }
 
-/* ========================================
-   Technical Skills - Expanded Groups
-   ======================================== */
-.skill-group {
-  margin-bottom: 20px;
-}
-
-.skill-group h3 {
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #ffffff;
-  margin: 0 0 8px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.skill-group.primary {
-  display: block;
-}
-
-.skill-group.additional {
-  display: none; /* Hidden by default - never show */
-}
-
-.skill-group.additional.expanded {
-  display: block; /* Shown when .expanded class is added */
-}
-
-.expand-toggle {
-  background: none;
-  border: 1px solid #444444;
-  color: #a0a0a0;
-  padding: 6px 12px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.expand-toggle:hover {
-  background-color: #2a2a4a;
-  color: #ffffff;
-  border-color: #666666;
-}
-
-.expand-toggle:focus {
-  outline: 2px solid #888888;
-  outline-offset: 2px;
-}
-
-.arrow {
-  display: inline-block;
-  margin-left: 4px;
-  transition: transform 0.2s ease;
-}
-
-.expand-toggle[aria-expanded="true"] .arrow {
-  transform: rotate(180deg);
-}
-
-.expanded-content {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 0.4s ease-in-out;
-}
-
-.skill-group.additional.expanded .expanded-content {
-  max-height: 2000px; /* Large enough to show all content */
-  opacity: 1;
-}
+/* ============================================================
+   5. App space — Custom ISA Simulator
+   ============================================================ */
 .app-space {
   padding: 10px;
   max-height: calc(100vh - 240px); /* Leave space for header and margins */
   overflow-y: auto;
 }
 
+/* Title row: simulator title (left) + global instruction counter (right) */
 .editor-title-section {
-  display: flex; 
+  display: flex;
   justify-content: space-between;
 }
 
-/* .editor-title {
-  padding: 0px; 
-  margin-top: auto;
-  margin-left: 1rem;
-  margin-bottom: auto; 
-  font: inherit;
-} */
-
-/* #globalParam {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  line-height: 1.0;
-  font-size: 0.8rem;
-  margin-right: 1rem;
-  margin-top: 1px;
-}
-#globalNumber {
-  font-size: 1.5rem;
-  color: green
-} */
+/* Simulator heading text (inside the toggable editor-title button) */
 .editor-title {
   padding: 0;
   margin: 0 0 0 1rem;
@@ -328,6 +251,7 @@ body {
   font-size: 1.1rem;
 }
 
+/* Global instruction counter — stacked label over the count */
 #globalParam {
   display: flex;
   flex-direction: column;
@@ -343,49 +267,507 @@ body {
 #globalNumber {
   font-size: 1.4rem;
   line-height: 1;
-  color: green;
+  color: #00ff00;
 }
 
-/* ========================================
-   Monaco Editor Container - Embedded in App Space
-   ======================================== */
-
-
-.cta-button {
-  background-color: transparent;
-  color: #888888;
-  border: 1px solid #444444;
-  padding: 10px 20px;
-  font-size: 0.9rem;
-  font-family: inherit;
-  cursor: pointer;
-}
-.cta-button:hover {
-  background-color: #2a2a4a;
-  color: #ffffff;
-  border-color: #666666;
+/* ============================================================
+   6. Editor — collapsible info panel (toggled by editor title)
+   ============================================================ */
+.editor-collapse-section {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  background-color: #15151f;
+  border: 1px solid #3a3a5c;
+  border-top: none;
+  /* border-radius: 0 0 8px 8px; */
+  transition: max-height 0.3s ease;
 }
 
+.editor-collapse-section .editor-collapse-body {
+  padding: 12px 16px 16px;
+  line-height: 1.6;
+}
+
+/* Open the panel when the title toggles .expanded (see cards.js) */
+.editor-title-section + .editor-collapse-section.expanded {
+  /* max-height: 200px; */
+  max-height: initial;
+}
+
+/* ============================================================
+   7. Editor — code frame + header controls
+   ============================================================ */
 .editor-frame {
   width: 100%;
   height: 420px;
   max-height: calc(100vh - 280px);
   min-height: 200px;
   border: 1px solid #3a3a5c;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
   overflow: hidden;
 }
 
 #editor {
   width: calc(100% + 30px);
-  /*
-  height: calc(100% - 54px); /* Subtract header and spacing */
   min-height: 100%;
 }
 
-/* ========================================
-   Responsive Design - Simple Layout
-   ======================================== */
+/* Horizontal control bar above the code frame */
+.editor-header {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  min-height: 30px;
+}
+
+/* Standard editor control buttons: Assemble / Step / Reset / Cancel */
+.editor-button {
+  background-color: transparent;
+  color: #888888;
+  border: 1px solid #444444;
+  padding: 0px 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  min-width: 2rem;
+}
+
+.editor-button:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.editor-button:disabled {
+  color: #6a6a8a;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Highlighted/primary editor control (e.g. active action) */
+.editor-button-highlight {
+  background-color: #dbe272;
+  color: #1a1a2e;
+  border: 1px solid #c8cf65;
+  padding: 0px 10px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  min-width: 2rem;
+  font-weight: 600;
+}
+
+.editor-button-highlight:hover {
+  background-color: #e7ee8f;
+  border-color: #dbe272;
+  color: #000000;
+}
+
+.editor-button-highlight:focus-visible {
+  outline: 2px solid #dbe272;
+  outline-offset: 2px;
+}
+
+.editor-button-highlight:disabled {
+  background-color: #b7bd5f;
+  border-color: #b7bd5f;
+  color: #1a1a2e;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Execution status text between the control buttons and program selector */
+#status {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font: inherit;
+  color: #888888;
+  font-size: 0.75rem;
+  align-self: center;
+}
+
+/* Runs-to-completion highlight in the editor */
+.executing-line {
+  background: rgba(255, 200, 0, 0.15);
+}
+
+/* Right side of the editor header: program selector */
+.program {
+  display: flex;
+  align-items: center;
+}
+
+.program-label {
+  color: #888888;
+  font-size: 0.8rem;
+  align-self: center;
+  padding-right: 6px;
+  padding-left: 10px;
+}
+
+.program-select {
+  background-color: #1e1e1e;
+  color: #888888;
+  border: 1px solid #444444;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.program-select:hover {
+  border-color: #666666;
+}
+
+.program-select option {
+  background-color: #1e1e1e;
+  color: #888888;
+  padding-left: 10px;
+}
+
+/* ============================================================
+   8. Editor — footer (register + memory inspection)
+   ============================================================ */
+.editor-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Register dropdown block */
+.registers {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 auto;
+  margin-top: 8px;
+}
+
+.reg-label {
+  color: #888888;
+  font-size: 0.8rem;
+  align-self: center;
+  padding-right: 6px;
+}
+
+.register-select {
+  background-color: #1e1e1e;
+  color: #888888;
+  border: 1px solid #444444;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.register-select:hover {
+  border-color: #666666;
+}
+
+.register-select option {
+  background-color: #1e1e1e;
+  color: #888888;
+}
+
+/* Memory address + value input block */
+.memory {
+  padding-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 auto;
+  margin-top: 8px;
+}
+
+.memory-select {
+  min-width: 4rem;
+  max-width: 4rem;
+  text-align: center;
+}
+
+.memory-value-input {
+  width: 6rem;
+  text-align: center;
+  cursor: text;
+}
+
+.memory-value-input:focus {
+  outline: none;
+  border-color: #666666;
+}
+
+/* ============================================================
+   9. Editor — collapsible core memory menu
+   ============================================================ */
+.memory-menu {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* "Memory Map" toggle button; panel is behind it (see memory-menu.js) */
+.memory-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: transparent;
+  color: #888888;
+  border: 1px solid #444444;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.memory-menu-toggle:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+  border-color: #666666;
+}
+
+.memory-menu-toggle:focus {
+  outline: none;
+  border-color: #666666;
+}
+
+/* chevron indicator that flips when the menu is open */
+.menu-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  margin-left: 6px;
+  transition: transform 0.2s ease;
+  vertical-align: middle;
+}
+
+.memory-menu-toggle[aria-expanded="true"] .menu-arrow {
+  transform: rotate(180deg);
+}
+
+/* Panel holding the 256-byte memory grid; hidden via the [hidden] attribute */
+.memory-menu-panel {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #3a3a5c;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  margin-top: 4px;
+  background-color: #15151f;
+}
+
+.memory-menu-panel[hidden] {
+  display: none;
+}
+
+.memory-menu-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-bottom: 1px solid #3a3a5c;
+  background-color: #1e1e2a;
+}
+
+.memory-menu-title {
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: bold;
+}
+
+.memory-menu-hint {
+  color: #888888;
+  font-size: 0.72rem;
+}
+
+/* 16-column grid of memory cells */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 1px;
+  padding: 2px;
+  background-color: #0f0f18;
+}
+
+.memory-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 1px 0;
+  cursor: pointer;
+  background-color: #15151f;
+  border: 1px solid transparent;
+}
+
+.memory-cell:hover {
+  background-color: #2a2a4a;
+  border-color: #4a4a6a;
+}
+
+.memory-cell .cell-addr {
+  color: #6a6a8a;
+  font-size: 0.56rem;
+  line-height: 1;
+}
+
+.memory-cell .cell-val {
+  color: #c8f0c0;
+  font-size: 0.66rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* Editable cell input inside the memory grid */
+.memory-grid .cell-input {
+  min-width: 8ch;
+  box-sizing: border-box;
+  padding: 0 2px;
+  background-color: #0f0f18;
+  color: #ffffff;
+  border: 1px solid #666666;
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 0.62rem;
+  text-align: center;
+  outline: none;
+}
+
+/* ============================================================
+   10. Projects — expandable project cards
+   ============================================================ */
+.projects-section {
+  max-width: 1400px;
+  margin: 48px auto 60px auto;
+  padding: 0 30px;
+}
+
+.projects-section h2 {
+  font-size: 1.1rem;
+  margin: 0 0 20px 0;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.project-card {
+  border: 1px solid #3a3a5c;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #15151f;
+  align-self: start;
+}
+
+/* Card header acts as the accordion trigger (see cards.js) */
+.project-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  cursor: pointer;
+  background-color: #1e1e2a;
+  border: none;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.project-card-header:hover {
+  background-color: #2a2a4a;
+}
+
+/* Down-chevron that flips when the card is expanded */
+.project-card-toggle {
+  color: #888888;
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.project-card.expanded .project-card-toggle {
+  transform: rotate(180deg);
+}
+
+/* Card body, revealed when the card has .expanded (see cards.js) */
+.project-card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 16px;
+  line-height: 1.6;
+}
+
+.tech {
+  overflow: hidden;
+  color: #a0a0a0;
+  font-size: 0.85rem;
+}
+
+.project-card.expanded .project-card-body {
+  max-height: initial;
+  padding: 12px 16px 16px;
+}
+
+/* ============================================================
+   11. Editor title toggle — collapsible info panel trigger
+   ============================================================ */
+.editor-title-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  color: #e0e0e0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.editor-title-toggle:hover {
+  color: #ffffff;
+}
+
+.editor-title-toggle:focus-visible {
+  outline: 2px solid #dbe272;
+  outline-offset: 2px;
+}
+
+/* Down-chevron that flips when the info panel is expanded */
+.editor-title-arrow {
+  font-size: 0.7rem;
+  color: #888888;
+  transition: transform 0.2s ease;
+  margin-right: 1rem;
+}
+
+.editor-title-toggle[aria-expanded="true"] .editor-title-arrow {
+  transform: rotate(180deg);
+}
+
+/* ============================================================
+   12. Responsive breakpoints (grouped)
+   ============================================================ */
 @media (max-width: 900px) {
   .main-content {
     grid-template-columns: 1fr;
@@ -399,6 +781,12 @@ body {
 
   .header-section h1 {
     font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -438,317 +826,40 @@ body {
   }
 }
 
-.editor-header {
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-  min-height: 30px;
-}
+/* ============================================================
+   13. Legacy / unused (keep for reference, no visual effect)
+   ============================================================ */
 
-.editor-button {
-  background-color: transparent;
-  color: #888888;
-  border: 1px solid #444444;
-  padding: 0px 10px;
-  font-size: 0.9rem;
-  font-family: inherit;
-  cursor: pointer;
-  min-width: 2rem;
-}
-.editor-button:hover {
-  background-color: #2a2a4a;
-  color: #ffffff;
-  border-color: #666666;
-}
-.editor-button:disabled{
-  color: #6a6a8a;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.editor-button-highlight {
-  background-color: #dbe272;
-  color: #1a1a2e;
-  border: 1px solid #c8cf65;
-  padding: 0px 10px;
-  font-size: 0.9rem;
-  font-family: inherit;
-  cursor: pointer;
-  min-width: 2rem;
-  font-weight: 600;
-}
-.editor-button-highlight:hover {
-  background-color: #e7ee8f;
-  border-color: #dbe272;
-  color: #000000;
-}
-.editor-button-highlight:focus-visible {
-  outline: 2px solid #dbe272;
-  outline-offset: 2px;
-}
-.editor-button-highlight:disabled {
-  background-color: #b7bd5f;
-  border-color: #b7bd5f;
-  color: #1a1a2e;
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-#status {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+/* Commented-out styling for the editor title text and counter.
+   Active rules live under sections 5 (editor-title / #globalParam). */
+/*
+.editor-title {
+  padding: 0px;
+  margin-top: auto;
+  margin-left: 1rem;
+  margin-bottom: auto;
   font: inherit;
-  color: #888888;
-  font-size: 0.75rem;
-  align-self: center;
 }
 
-.executing-line {
-  background: rgba(255, 200, 0, 0.15);
-}
-
-.program-label {
-  color: #888888;
-  font-size: 0.8rem;
-  align-self: center;
-  padding-right: 6px;
-  padding-left: 10px;
-}
-
-.program-select {
-  background-color: #1e1e1e;
-  color: #888888;
-  border: 1px solid #444444;
-  padding: 2px 6px;
-  font-size: 0.8rem;
-  font-family: inherit;
-  cursor: pointer;
-}
-.program-select:hover {
-  border-color: #666666;
-}
-
-.program-select option {
-  background-color: #1e1e1e;
-  color: #888888;
-  padding-left:10px;
-}
-
-
-.editor-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.registers {
-  padding-left: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  flex: 0 1 auto;
-  margin-top: 8px;
-}
-
-.reg {
-  /* background-color: transparent; */
-  color: #888888;
-  /* border: 1px solid #444444; */
-  padding: 0px 00px;
-  font-size: 0.8rem;
-  font-family: inherit;
-  /* cursor: pointer; */
-}
-
-.reg-label {
-  color: #888888;
-  font-size: 0.8rem;
-  align-self: center;
-  padding-right: 6px;
-}
-
-.register-select {
-  background-color: #1e1e1e;
-  color: #888888;
-  border: 1px solid #444444;
-  padding: 2px 6px;
-  font-size: 0.8rem;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.register-select:hover {
-  border-color: #666666;
-}
-
-.register-select option {
-  background-color: #1e1e1e;
-  color: #888888;
-}
-
-.memory {
-  padding-left: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  flex: 0 1 auto;
-  margin-top: 8px;
-}
-
-.memory-select {
-  min-width: 4rem;
-  max-width: 4rem;
-  text-align: center;
-}
-
-.memory-value-input {
-  width: 6rem;
-  text-align: center;
-  cursor: text;
-}
-
-.memory-value-input:focus {
-  outline: none;
-  border-color: #666666;
-}
-
-/* ========================================
-   Memory Menu - Collapsible Core Memory Map
-   ======================================== */
-.memory-menu {
-  width: 100%;
-  margin-top: 4px;
-}
-
-.memory-menu-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  background-color: transparent;
-  color: #888888;
-  border: 1px solid #444444;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 0.8rem;
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.memory-menu-toggle:hover {
-  background-color: #2a2a4a;
-  color: #ffffff;
-  border-color: #666666;
-}
-
-.memory-menu-toggle:focus {
-  outline: none;
-  border-color: #666666;
-}
-
-.menu-arrow {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  margin-left: 6px;
-  transition: transform 0.2s ease;
-  vertical-align: middle;
-}
-
-.memory-menu-toggle[aria-expanded="true"] .menu-arrow {
-  transform: rotate(180deg);
-}
-
-.memory-menu-panel {
+#globalParam {
   display: flex;
   flex-direction: column;
-  border: 1px solid #3a3a5c;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  margin-top: 4px;
-  background-color: #15151f;
+  align-items: flex-end;
+  text-align: right;
+  line-height: 1.0;
+  font-size: 0.8rem;
+  margin-right: 1rem;
+  margin-top: 1px;
 }
+#globalNumber {
+  font-size: 1.5rem;
+  color: green
+}
+*/
 
-.memory-menu-panel[hidden] {
-  display: none;
+/* Editor frame: was used to offset the editor by the header height. */
+/*
+#editor {
+  height: calc(100% - 54px);
 }
-
-.memory-menu-toolbar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 4px 8px;
-  border-bottom: 1px solid #3a3a5c;
-  background-color: #1e1e2a;
-}
-
-.memory-menu-title {
-  color: #ffffff;
-  font-size: 0.78rem;
-  font-weight: bold;
-}
-
-.memory-menu-hint {
-  color: #888888;
-  font-size: 0.72rem;
-}
-
-.memory-grid {
-  display: grid;
-  grid-template-columns: repeat(16, 1fr);
-  gap: 1px;
-  padding: 2px;
-  /* max-height: 220px; */
-  /* overflow-y: auto; */
-  background-color: #0f0f18;
-}
-
-.memory-cell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  padding: 1px 0;
-  cursor: pointer;
-  background-color: #15151f;
-  border: 1px solid transparent;
-}
-
-.memory-cell:hover {
-  background-color: #2a2a4a;
-  border-color: #4a4a6a;
-}
-
-.memory-cell .cell-addr {
-  color: #6a6a8a;
-  font-size: 0.56rem;
-  line-height: 1;
-}
-
-.memory-cell .cell-val {
-  color: #c8f0c0;
-  font-size: 0.66rem;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-.memory-grid .cell-input {
-  min-width: 8ch;
-  box-sizing: border-box;
-  padding: 0 2px;
-  background-color: #0f0f18;
-  color: #ffffff;
-  border: 1px solid #666666;
-  border-radius: 2px;
-  font-family: inherit;
-  font-size: 0.62rem;
-  text-align: center;
-  outline: none;
-}
+*/

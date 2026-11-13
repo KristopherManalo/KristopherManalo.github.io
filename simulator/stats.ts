@@ -27,6 +27,7 @@ export function initializeStats(): Promise<void> {
 
 let isFlushing = false;
 export async function flushInstructionCount() {
+    if (import.meta.env.DEV) return;
     if (!initializationPromise || isFlushing) return;
     await initializationPromise;
 
@@ -81,6 +82,7 @@ export async function flushInstructionCount() {
 }
 
 export async function fetchGlobalCount(): Promise<void> {
+    if (import.meta.env.DEV) return;
     if (typeof document === "undefined") return;
 
     const element = document.getElementById("globalNumber");
