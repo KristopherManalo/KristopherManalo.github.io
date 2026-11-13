@@ -12,6 +12,8 @@ export const program_16to16 =
 // LSW is put in memory[0]
 // MSW is put in memory[1]
 // MSW . LSW => s_eeeee_ffffffffff
+#load 0x01 0x81 // macro hard codes
+#load 0x00 0xff // memory[lhs] = rhs
 
 ADI r2, #1              // r1 = 0, r2 = 1
 LWD r1, r1              // LSW
