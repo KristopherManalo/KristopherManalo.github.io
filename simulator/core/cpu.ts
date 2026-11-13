@@ -208,7 +208,7 @@ function lsl(core: CpuState, inst: Instruction): void {
     const reg = inst.operands[0];
     const value = core.registers[reg];
     const imm = inst.immediate!;
-    core.registers[reg] = (value << imm) | (value >> (8 - imm));
+    core.registers[7] = (value << imm) | (value >> (8 - imm));
     core.pc++;
 }
 
@@ -246,7 +246,7 @@ function lwd(core: CpuState, inst: Instruction): void {
 function swd(core: CpuState, inst: Instruction): void {
     const reg0 = inst.operands[0];
     const reg1 = inst.operands[1];
-    core.memory[core.registers[reg0]] = core.registers[reg1];
+    core.memory[core.registers[reg1]] = core.registers[reg0];
     core.pc++;
 }
 

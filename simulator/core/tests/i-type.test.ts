@@ -74,7 +74,7 @@ describe("I-type Instructions", () => {
     });
 
     describe("lsl", () => {
-        it("should rotate bits in place for 1 bit", () => {
+        it("should rotate bits by 1 bit, put into reg7", () => {
             const core = create_core();
             start_core(core);
             core.registers[0] = 0x01; // 00000001
@@ -86,11 +86,12 @@ describe("I-type Instructions", () => {
                 sourceLine: 0
             };
 
+            expect(core.registers[7]).toBe(0x00);
             execute_instruction(core, inst);
-            expect(core.registers[0]).toBe(0x02); // 00000010
+            expect(core.registers[7]).toBe(0x02); // 00000010
         });
 
-        it("should rotate bits in place for 4 bits", () => {
+        it("should rotate bits 4 bits, put into reg7", () => {
             const core = create_core();
             start_core(core);
             core.registers[0] = 0x80; // 10000000
@@ -102,8 +103,9 @@ describe("I-type Instructions", () => {
                 sourceLine: 0
             };
 
+            expect(core.registers[7]).toBe(0x00);
             execute_instruction(core, inst);
-            expect(core.registers[0]).toBe(0x08); // 0000_1000
+            expect(core.registers[7]).toBe(0x08); // 0000_1000
         });
 
         it("should rotate bits in place for 8 bits (no change)", () => {

@@ -34,16 +34,16 @@ describe("M-type Instructions", () => {
             start_core(core);
 
             // Setup: reg0 = 10 (address), reg1 = 0xBB (value)
-            core.registers[0] = 10;
             core.registers[1] = 0xBB;
+            core.registers[2] = 10;
 
             const inst: Instruction = {
                 opcode: "swd",
-                operands: [0, 1], // reg0 = addr, reg1 = src
+                operands: [1, 2], // reg0 = addr, reg1 = src
                 immediate: null,
                 sourceLine: 0
             };
-
+            expect(core.memory[10]).toBe(0x00);
             execute_instruction(core, inst);
 
             expect(core.memory[10]).toBe(0xBB);
