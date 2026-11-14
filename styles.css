@@ -285,7 +285,6 @@ body {
 }
 
 .editor-collapse-section .editor-collapse-body {
-  padding: 12px 16px 16px;
   line-height: 1.6;
 }
 
@@ -293,6 +292,7 @@ body {
 .editor-title-section + .editor-collapse-section.expanded {
   /* max-height: 200px; */
   max-height: initial;
+  padding: 12px 16px 16px;
 }
 
 /* ============================================================
@@ -729,6 +729,10 @@ body {
   transition: max-height 0.3s ease;
   padding: 0 16px;
   line-height: 1.6;
+}
+
+.project-links {
+  padding-left: 16px;
 }
 
 .tech {
