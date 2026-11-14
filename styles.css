@@ -443,7 +443,8 @@ body {
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  flex: 0 1 auto;
+  flex: 1 1 0;
+  min-width: 0;
   margin-top: 8px;
 }
 
@@ -455,22 +456,38 @@ body {
 }
 
 .register-select {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(4rem, 1fr));
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 0;
+  width: 100%;
+  min-width: 0;
   background-color: #1e1e1e;
   color: #888888;
   border: 1px solid #444444;
-  padding: 2px 6px;
+  padding: 2px 3px;
   font-size: 0.8rem;
   font-family: inherit;
-  cursor: pointer;
+  list-style: none;
+  margin: 0;
 }
 
-.register-select:hover {
-  border-color: #666666;
+.register-select li {
+  white-space: nowrap;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-align: center;
 }
 
-.register-select option {
-  background-color: #1e1e1e;
-  color: #888888;
+.register-select li:hover {
+  background-color: #2b2b2b;
+}
+
+/* Highlighted / active register */
+.register-select li.selected {
+  color: #d0d0d0;
+  background-color: #333333;
 }
 
 /* Memory address + value input block */
@@ -715,6 +732,8 @@ body {
 }
 
 .tech {
+  padding-left: 10px;
+  padding-right: 10px;
   overflow: hidden;
   color: #a0a0a0;
   font-size: 0.85rem;
