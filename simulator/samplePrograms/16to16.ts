@@ -9,11 +9,15 @@ export const program_16to16 =
 // replaced with immediate literals
 // Original label is comment
 
-// LSW is put in memory[0]
-// MSW is put in memory[1]
-// MSW . LSW => s_eeeee_ffffffffff
+// MSW . LSW => s_eeeee_mmmmmmmmmm
+// Input:
+//      LSW is put in memory[0]
+//      MSW is put in memory[1]
 #load 0x01 0x81 // macro hard codes
 #load 0x00 0xff // memory[lhs] = rhs
+// Result:
+//      LSW put in memory[2]
+//      MSW put in memory[3]
 
 ADI r2, #1              // r1 = 0, r2 = 1
 LWD r1, r1              // LSW
