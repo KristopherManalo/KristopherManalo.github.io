@@ -11,22 +11,17 @@ export function set_memory_write_callback(
 }
 
 export function update_registers_view(core: CpuState): void {
-    const select = document.getElementById(
-        "register-select"
-    ) as HTMLSelectElement | null;
+    const select = document.querySelectorAll<HTMLLIElement>(
+        "#register-select li"
+    );
     if (!select) return;
 
     for (let i = 0; i < core.registers.length; i++) {
         const value = core.registers[i].toString(16).toUpperCase().padStart(2, "0");
-        const option = select.options[i];
-        option.value = `0x${value}`;
+        const option = select[i];
+        option.value = parseInt(value, 16);
         option.textContent = `R${i} = 0x${value}`;
     }
-    select.value =
-        `0x${core.registers[select.selectedIndex]
-            .toString(16)
-            .toUpperCase()
-            .padStart(2, "0")}`;
 }
 
 const MEMORY_SIZE = 256;

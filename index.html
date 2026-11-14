@@ -190,7 +190,32 @@
         </div>
       </div>
       <div class="editor-collapse-section">
-        <p class="editor-collapse-body">Placeholder content — details will go here.</p>
+        <p class="tech">
+          TypeScript · Vite · Monaco Editor 
+          · Vitest · AWS Lambda · Amazon DynamoDB
+          · GitHub Pages
+        </p>
+        <p class="editor-collapse-body">
+          An interactive assembly simulator build around a 
+          custom RISC instruction set (designed by me),
+          allowing users to write, assemble, and execute
+          programs in a browser-based environment.
+          <br>
+          The simulator provides a step-by-step 
+          execution interface with visiblitiy
+          into processor registers, memory, and instruction
+          execution statistics, making it possible to
+          inspect program behavior at instruction level.
+          <br>
+          Developed using TypeScript and Monaco Editor,
+          the project combines an assembly parsing
+          execution engine with interactive development 
+          interface.
+          <br>
+          It also incorporates a serverless AWS backend
+          to collect instruction exectuion statistics,
+          deployed via GitHub Pages.
+        </p> 
       </div>
       <div class="editor-frame">
         <div class="editor-header">          
@@ -234,19 +259,20 @@
       </div>
       <div class="editor-footer">
         <div class="registers">
-          <label for="register-select" class="reg-label">Registers</label>
-          <select id="register-select" class="register-select">
-            <option value="0x00">R0 = 0x00</option>
-            <option value="0x00">R1 = 0x00</option>
-            <option value="0x00">R2 = 0x00</option>
-            <option value="0x00">R3 = 0x00</option>
-            <option value="0x00">R4 = 0x00</option>
-            <option value="0x00">R5 = 0x00</option>
-            <option value="0x00">R6 = 0x00</option>
-            <option value="0x00" selected>R7 = 0x00</option>
-          </select>
+          <div class="reg-label">Registers</div>
+          <ul id="register-select" class="register-select">
+            <li value="0x00">R0: 0x00</li>
+            <li value="0x00">R1: 0x00</li>
+            <li value="0x00">R2: 0x00</li>
+            <li value="0x00">R3: 0x00</li>
+            <li value="0x00">R4: 0x00</li>
+            <li value="0x00">R5: 0x00</li>
+            <li value="0x00">R6: 0x00</li>
+            <!-- <li value="0x00" class="selected">R7: 0x00</li> -->
+            <li value="0x00">R7: 0x00</li>
+          </ul>
         </div>
-        <div class="memory">
+        <!-- <div class="memory">
           <label for="memory-select" class="reg-label">Memory</label>
           <input 
             id="memory-select" 
@@ -262,8 +288,7 @@
             value="0000 0000"
             aria-label="Memory value"
           />
-        </div>
-
+        </div> -->
       </div>
         <div class="memory-menu">
           <button
@@ -317,60 +342,59 @@
     <div class="cards-grid">
       <article class="project-card">
         <button type="button" class="project-card-header">
-          <span class="project-card-title">Project Title</span>
+          <span class="project-card-title">
+            Custom RISC Architecture & Toolchain
+          </span>
           <span class="project-card-toggle" aria-hidden="true">▼</span>
         </button>
         <div class="project-card-body">
+          <p class="tech">
+            SystemVerilog · C · Intel Quartus Prime · ModelSim
+          </p>
           <p>Placeholder content — details will go here.</p>
         </div>
       </article>
 
       <article class="project-card">
         <button type="button" class="project-card-header">
-          <span class="project-card-title">Project Title</span>
+          <span class="project-card-title">
+            Distributed Video Storage System
+          </span>
           <span class="project-card-toggle" aria-hidden="true">▼</span>
         </button>
         <div class="project-card-body">
+          <p class="tech">
+            Go · gRPC · Protocol Buffers · SQLite
+            · FFmpeg · HTTP
+          </p>
           <p>Placeholder content — details will go here.</p>
         </div>
       </article>
 
       <article class="project-card">
         <button type="button" class="project-card-header">
-          <span class="project-card-title">Project Title</span>
+          <span class="project-card-title">Android Reminder Application</span>
           <span class="project-card-toggle" aria-hidden="true">▼</span>
         </button>
         <div class="project-card-body">
+          <p class="tech">
+            Java · Android SDK · SQLite · Android Studio
+          </p>
           <p>Placeholder content — details will go here.</p>
         </div>
       </article>
 
       <article class="project-card">
         <button type="button" class="project-card-header">
-          <span class="project-card-title">Project Title</span>
+          <span class="project-card-title">
+            Vulkan Renderer & Game Demo
+          </span>
           <span class="project-card-toggle" aria-hidden="true">▼</span>
         </button>
         <div class="project-card-body">
-          <p>Placeholder content — details will go here.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <button type="button" class="project-card-header">
-          <span class="project-card-title">Project Title</span>
-          <span class="project-card-toggle" aria-hidden="true">▼</span>
-        </button>
-        <div class="project-card-body">
-          <p>Placeholder content — details will go here.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <button type="button" class="project-card-header">
-          <span class="project-card-title">Project Title</span>
-          <span class="project-card-toggle" aria-hidden="true">▼</span>
-        </button>
-        <div class="project-card-body">
+          <p class="tech">
+            C++ · Vulkan · Slang · CMake · GLFW
+          </p>
           <p>Placeholder content — details will go here.</p>
         </div>
       </article>

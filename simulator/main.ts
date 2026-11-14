@@ -37,6 +37,7 @@ self.MonacoEnvironment = {
 };
 
 let isStep = false;
+let highlighted: number = -1;
 
 const container = document.getElementById("editor");
 
@@ -238,6 +239,7 @@ async function assemble_program() {
   isStep = false;
 
   try {
+    cancel();
     program = await parse(source);
     reset_core(core);
     apply_directives(core, program.directives);
@@ -283,7 +285,8 @@ async function step_through() {
     return;
   }
   const sourceLine = program.instructions[core.pc].sourceLine;
-  execute_instruction(core, program.instructions[core.pc]);
+  const affected_register: number 
+      = execute_instruction(core, program.instructions[core.pc]);
   executionDecoration = editor.deltaDecorations(
     executionDecoration, 
     [{
@@ -297,6 +300,8 @@ async function step_through() {
     lineNumber: sourceLine,
     column: 1,
   });
+  console.log(affected_register);
+  highlight_register(affected_register);
   editor.revealLineInCenter(sourceLine);
   update_registers_view(core);
   update_memory_view(core.memory);
@@ -314,6 +319,7 @@ async function reset() {
   const source = editor.getValue();
   program = await parse(source);
   apply_directives(core, program.directives);
+  remove_highlight_register();
 }
 
 async function cancel() {
@@ -331,5 +337,41 @@ async function cancel() {
       readOnly: false
   });
   flushInstructionCount();
+  remove_highlight_register();
 }
 
+function highlight_register(num: number) {
+  if (highlighted === num) {
+    if (import.meta.env.DEV) console.log("same reg highlight");
+    return;
+  }
+
+  if (num < 0 || num > 7) {
+    console.warn("invalid register highlight attempt");
+    return;
+  }
+
+  const regs = document.querySelectorAll<HTMLLIElement>(
+      "#register-select li"
+  );
+  if (!regs) return;
+
+  if (highlighted !== -1) {
+    regs[highlighted].classList.remove("selected");
+  }
+  regs[num].classList.add("selected");
+  highlighted = num;
+}
+
+function remove_highlight_register() {
+  if (highlighted === -1) {
+    return;
+  }
+  const regs = document.querySelectorAll<HTMLLIElement>(
+      "#register-select li"
+  );
+  if (!regs) return;
+
+  regs[highlighted].classList.remove("selected");
+  highlighted = -1;
+}

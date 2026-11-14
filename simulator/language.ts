@@ -58,7 +58,7 @@ monaco.languages.setMonarchTokensProvider(LANGUAGE_ID, {
             // [/[,:]/, "delimiter"],
 
             // Macros
-            [/^#?[\w]+\s+(0x[0-9a-fA-F]{2}|\d)\s+(0x[0-9a-fA-F]{2}|\d)$/, "annotation"],
+            [/^#[\w]+\s+(0x[0-9a-fA-F]{2}|\d)\s+(0x[0-9a-fA-F]{2}|\d)\b/, "annotation"],
         ],
     },
 });
