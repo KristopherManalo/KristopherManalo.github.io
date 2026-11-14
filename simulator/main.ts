@@ -364,6 +364,9 @@ function highlight_register(num: number) {
 }
 
 function remove_highlight_register() {
+  if (highlighted === -1) {
+    return;
+  }
   const regs = document.querySelectorAll<HTMLLIElement>(
       "#register-select li"
   );
