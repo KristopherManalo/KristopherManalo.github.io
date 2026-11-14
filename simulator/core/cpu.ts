@@ -41,7 +41,7 @@ export function apply_directives(
 }
 
 type InstructionHandler 
-        = (core: CpuState, inst: Instruction) => void;
+        = (core: CpuState, inst: Instruction) => number;
 
 const INSTRUCTION_HANDLERS: Record<string, InstructionHandler> = {
     nop,
@@ -62,7 +62,7 @@ const INSTRUCTION_HANDLERS: Record<string, InstructionHandler> = {
 export function execute_instruction(
     core: CpuState,
     inst: Instruction
-) {
+): number {
     // console.log(inst.opcode);
     const handler = INSTRUCTION_HANDLERS[inst.opcode];
 
@@ -70,26 +70,30 @@ export function execute_instruction(
         throw Error(`Invalid opcode: ${inst.opcode}`);
     }
 
-    handler(core, inst);
+    const affected_reg: number = handler(core, inst);
 
     incrementInstructionExecution();
+
+    return affected_reg;
 }
 
 /**
  * No op
  * @param core current cpu
  */
-function nop(core: CpuState): void {
+function nop(core: CpuState): number {
     core.pc++;
+    return -1;
 }
 
 /**
  * Marks program as finished running
  * @param core 
  */
-function don(core: CpuState): void {
+function don(core: CpuState): number {
     core.pc++;
     core.halted = true;
+    return -1;
 }
 
 /**
@@ -99,11 +103,12 @@ function don(core: CpuState): void {
  * @param core current cpu
  * @param inst inst to execute
  */
-function and(core: CpuState, inst: Instruction): void {
+function and(core: CpuState, inst: Instruction): number {
     core.registers[7] = 
         core.registers[inst.operands[0]]
         & core.registers[inst.operands[1]];
     core.pc++;
+    return 7;
 }
 
 /**
@@ -113,13 +118,14 @@ function and(core: CpuState, inst: Instruction): void {
  * @param core current cpu
  * @param inst inst to execute
  */
-function add(core: CpuState, inst: Instruction): void {
+function add(core: CpuState, inst: Instruction): number {
     const result: number = 
         core.registers[inst.operands[0]]
         + core.registers[inst.operands[1]];
     core.pc++;
     core.carry_out = result > 0xFF;
     core.registers[7] = result & 0xFF;
+    return 7;
 }
 
 /**
@@ -129,11 +135,12 @@ function add(core: CpuState, inst: Instruction): void {
  * @param core current cpu
  * @param inst inst to execute
  */
-function xor(core: CpuState, inst: Instruction): void {
+function xor(core: CpuState, inst: Instruction): number{
     core.registers[7] =
         core.registers[inst.operands[0]]
         ^ core.registers[inst.operands[1]];
     core.pc++;
+    return 7;
 }
 
 /**
@@ -144,7 +151,7 @@ function xor(core: CpuState, inst: Instruction): void {
  * @param core current cpu
  * @param inst inst to execute
  */
-function beq(core: CpuState, inst: Instruction): void {
+function beq(core: CpuState, inst: Instruction): number {
     const reg = inst.operands[0];
 
     const condition = reg === 7
@@ -152,6 +159,7 @@ function beq(core: CpuState, inst: Instruction): void {
         : core.registers[reg] === core.registers[reg + 1];
 
     core.pc += condition ? inst.immediate! : 1;
+    return -1;
 }
 
 /**
@@ -162,7 +170,7 @@ function beq(core: CpuState, inst: Instruction): void {
  * @param core current cpu
  * @param inst isnt to execute
  */
-function blt(core: CpuState, inst: Instruction): void {
+function blt(core: CpuState, inst: Instruction): number {
     const reg = inst.operands[0];
 
     const condition = reg === 7
@@ -170,6 +178,7 @@ function blt(core: CpuState, inst: Instruction): void {
         : core.registers[reg] < core.registers[reg + 1];
 
     core.pc += condition ? inst.immediate! : 1;
+    return -1;
 }
 
 /**
@@ -177,26 +186,31 @@ function blt(core: CpuState, inst: Instruction): void {
  * @param core current cpu
  * @param inst inst to execute
  */
-function bco(core: CpuState, inst: Instruction): void {
+function bco(core: CpuState, inst: Instruction): number{
     core.pc += core.carry_out ? inst.immediate! : 1;
+    return -1;
 }
 
-function jmp(core: CpuState, inst: Instruction): void {
+function jmp(core: CpuState, inst: Instruction): number {
     core.pc = inst.immediate! * 16;
+    return -1;
 }
 
-function adi(core: CpuState, inst: Instruction): void {
+function adi(core: CpuState, inst: Instruction): number {
     const reg = inst.operands[0];
     // ex: mov r0, #3 ;; moves [r7] = 3
     if (reg === 0) {
         core.registers[7] = inst.immediate!;
+        core.pc++;
+        return 7;
     }
     else {
         const result: number = core.registers[7] + inst.immediate!;
         core.carry_out = result > 0xFF;
         core.registers[reg] = result & 0xFF;
+        core.pc++;
+        return reg;
     }
-    core.pc++;
 }
 
 /**
@@ -204,12 +218,13 @@ function adi(core: CpuState, inst: Instruction): void {
  * @param core 
  * @param inst 
  */
-function lsl(core: CpuState, inst: Instruction): void {
+function lsl(core: CpuState, inst: Instruction): number {
     const reg = inst.operands[0];
     const value = core.registers[reg];
     const imm = inst.immediate!;
     core.registers[7] = (value << imm) | (value >> (8 - imm));
     core.pc++;
+    return 7;
 }
 
 /**
@@ -217,7 +232,8 @@ function lsl(core: CpuState, inst: Instruction): void {
  * @param core 
  * @param inst 
  */
-function lsr(core: CpuState, inst: Instruction): void {
+function lsr(core: CpuState, inst: Instruction): number {
+    return -1;
 }
 
 /**
@@ -227,13 +243,15 @@ function lsr(core: CpuState, inst: Instruction): void {
  * @param core 
  * @param inst 
  */
-function lwd(core: CpuState, inst: Instruction): void {
+function lwd(core: CpuState, inst: Instruction): number {
     const reg0 = inst.operands[0];
     const reg1 = inst.operands[1];
 
     // reg0 <= [reg1]
     core.registers[reg0] = core.memory[core.registers[reg1]];
     core.pc++;
+
+    return reg0;
 }
 
 /**
@@ -243,11 +261,12 @@ function lwd(core: CpuState, inst: Instruction): void {
  * @param core 
  * @param inst 
  */
-function swd(core: CpuState, inst: Instruction): void {
+function swd(core: CpuState, inst: Instruction): number {
     const reg0 = inst.operands[0];
     const reg1 = inst.operands[1];
     core.memory[core.registers[reg1]] = core.registers[reg0];
     core.pc++;
+    return -1;
 }
 
 
