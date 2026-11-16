@@ -33,6 +33,11 @@
   scrollbar-gutter: stable;
 }
 
+/* Anchor links (the header's Simulator / Projects nav) scroll smoothly. */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Inconsolata', 'Courier New', monospace;
   color: #e0e0e0;
@@ -43,7 +48,9 @@ body {
 }
 
 /* ============================================================
-   1. Header — name, contact links, email
+   1. Header — two rows:
+        Row 1: name (left) + portfolio links (right)
+        Row 2: section nav (left) + email controls (right)
    ============================================================ */
 .header-section {
   max-width: 1400px;
@@ -51,25 +58,42 @@ body {
   display: block;
 }
 
+/* Stack the two header rows; full width, modest vertical gap between them. */
 .name-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  width: 100%;
+  gap: 6px;
 }
 
-.header-section h1 {
-  font-size: 2rem;
-  margin: 0 0 4px 0;
-  color: #ffffff;
-}
-
-.contact-links {
+/* Each row spans the full width; the left group sits on the left, the
+   right group is pushed to the right (this is the "distance" + right align). */
+.header-row {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-section .header-name {
+  font-size: 1.6rem;
+  margin: 0;
+  color: #ffffff;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+/* Right-side groups on both rows (portfolio links / email controls). */
+.contact-links,
+.contact-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Row 1 portfolio links wrap onto their own line when the row gets tight. */
+.contact-links {
   flex-wrap: wrap;
-  margin-bottom: 2px;
 }
 
 .portfolio-link {
@@ -77,19 +101,29 @@ body {
   text-decoration: none;
   padding: 8px 16px;
   font-size: 0.9rem;
-  transition: none;
 }
 
 .portfolio-link:hover {
   color: #ffffff;
 }
 
-.contact-list {
+/* Row 2 section navigation (left): links separated by the "distance" gap. */
+.header-nav {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 20px;
+  padding-left: 8px;
+}
+
+.nav-link {
+  color: #a0a0a0;
+  text-decoration: none;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+}
+
+.nav-link:hover {
+  color: #ffffff;
 }
 
 .contact-email {
@@ -100,16 +134,201 @@ body {
   white-space: nowrap;
 }
 
-/* "Alternative Contact (Coming Soon)" — disabled pill button */
+.contact-email {
+  color: #888888;
+  text-decoration: none;
+  padding: 8px 18px;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+.contact-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* "Alternative Contact" — pill button. Active once the modal is wired. */
 .contact-button {
   background-color: transparent;
   color: #a0a0a0;
-  border: 1px dashed #444444;
+  /* border: 1px dashed #444444; */
+  border: none;
   padding: 8px 18px;
+  margin-right: 10px;
   font-size: 0.9rem;
   cursor: not-allowed;
   font-family: inherit;
   white-space: nowrap;
+}
+
+/* Primary "Send Message" CTA — uses the page's slate-blue, border slightly lighter so it stands out a touch over the email link. */
+.contact-button.alternative {
+  cursor: pointer;
+  background-color: #3a3a5c;
+  color: #e8e8f0;
+  border: 1px solid #4d4d6e;
+  font-weight: 600;
+}
+
+.contact-button.alternative:hover {
+  background-color: #45456b;
+  border-color: #5b5b82;
+  color: #ffffff;
+}
+
+.contact-button.alternative:focus-visible {
+  outline: 2px solid #4d4d6e;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   12b. Alternative Contact — modal dialog
+   ============================================================ */
+.contact-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(15, 15, 25, 0.8);
+}
+
+.contact-modal-overlay[hidden] {
+  display: none;
+}
+
+.contact-modal {
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background-color: #15151f;
+  border: 1px solid #3a3a5c;
+  border-radius: 8px;
+}
+
+.contact-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #3a3a5c;
+}
+
+.contact-modal-title {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.contact-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #888888;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.contact-modal-close:hover {
+  color: #ffffff;
+  background-color: #2a2a4a;
+}
+
+.contact-modal-close:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+.contact-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-field-label {
+  color: #a0a0a0;
+  font-size: 0.85rem;
+}
+
+.contact-field input,
+.contact-field textarea {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #444444;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+
+.contact-field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  outline: none;
+  border-color: #666666;
+}
+
+.contact-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.contact-modal-cancel {
+  padding: 8px 16px;
+  border: 1px solid #444444;
+  background-color: transparent;
+  color: #a0a0a0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.contact-modal-cancel:hover {
+  background-color: #2a2a4a;
+  color: #ffffff;
+}
+
+.contact-modal-submit {
+  padding: 8px 16px;
+  background-color: #dbe272;
+  color: #1a1a2e;
+  border: 1px solid #c8cf65;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.contact-modal-submit:hover {
+  background-color: #e7ee8f;
+  border-color: #dbe272;
+  color: #000000;
 }
 
 /* ============================================================
@@ -285,7 +504,6 @@ body {
 }
 
 .editor-collapse-section .editor-collapse-body {
-  padding: 12px 16px 16px;
   line-height: 1.6;
 }
 
@@ -293,6 +511,7 @@ body {
 .editor-title-section + .editor-collapse-section.expanded {
   /* max-height: 200px; */
   max-height: initial;
+  padding: 12px 16px 16px;
 }
 
 /* ============================================================
@@ -313,12 +532,57 @@ body {
   min-height: 100%;
 }
 
-/* Horizontal control bar above the code frame */
+/* Horizontal control bar above the code frame.
+   Three logical columns laid out as a grid: control buttons on the left,
+   execution status in the middle, program selector on the right.
+   On wide widths all four buttons sit in one horizontal row (b1–b4).
+   On narrow widths they collapse back to the stacked "1 | 3" arrangement
+   (the Assemble* button spanning the top row, step/reset/cancel beneath)
+   so they fit a tight viewport. */
 .editor-header {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: min-content min-content min-content min-content auto 1fr auto;
+  grid-template-areas:
+    "b1  b2  b3  b4  status  status  program";
+  align-items: center;
   gap: 0px;
   min-height: 30px;
+}
+
+/* Editor buttons — confined to the buttons column region (areas b1–b4). */
+#assemble { grid-area: b1; }
+#step-through { grid-area: b2; }
+#reset { grid-area: b3; }
+#cancel { grid-area: b4; }
+
+/* Execution status occupies the middle column region. */
+#status { grid-area: status; }
+
+/* Program selector occupies the right-most column region. */
+.program { grid-area: program; }
+
+/* On narrow widths, stack the program selector below the status so the
+   "Program" label can no longer collide with the status text. The buttons
+   stay in their own column to the left of both. */
+@media (max-width: 630px) {
+  .editor-header {
+    grid-template-columns: min-content min-content min-content 1fr;
+    grid-template-areas:
+      "b1  b1  b1  status"
+      "b2  b3  b4  program";
+  }
+  .program {
+    margin-left: 1rem;
+    width: 100%;
+    padding-left: 8px;
+  }
+
+  #status {
+    /* justify-content: center; */
+    margin-left: 1rem;
+    padding-left: 0px;
+  }
+
 }
 
 /* Standard editor control buttons: Assemble / Step / Reset / Cancel */
@@ -331,6 +595,7 @@ body {
   font-family: inherit;
   cursor: pointer;
   min-width: 2rem;
+  min-height: 30px;
 }
 
 .editor-button:hover {
@@ -355,6 +620,7 @@ body {
   font-family: inherit;
   cursor: pointer;
   min-width: 2rem;
+  min-height: 30px;
   font-weight: 600;
 }
 
@@ -403,7 +669,7 @@ body {
   font-size: 0.8rem;
   align-self: center;
   padding-right: 6px;
-  padding-left: 10px;
+  /* padding-left: 10px; */
 }
 
 .program-select {
@@ -438,14 +704,15 @@ body {
 
 /* Register dropdown block */
 .registers {
-  padding-left: 10px;
+  /* padding-left: 10px; */
+  padding: 0px;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
   flex: 1 1 0;
   min-width: 0;
-  margin-top: 8px;
+  margin-top: 0px;
 }
 
 .reg-label {
@@ -731,6 +998,10 @@ body {
   line-height: 1.6;
 }
 
+.project-links {
+  padding-left: 16px;
+}
+
 .tech {
   padding-left: 10px;
   padding-right: 10px;
@@ -814,21 +1085,33 @@ body {
     font-size: 1.4rem;
   }
 
-  .contact-links {
+  /* On narrow screens, stack each row into a column so the links sit back
+     below the name (and email controls below the nav). */
+  .header-row {
     flex-direction: column;
     align-items: center;
+    text-align: center;
+  }
+
+  .contact-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     gap: 8px;
   }
 
   .portfolio-link {
     text-align: center;
-    width: 100%;
-    max-width: 260px;
-    white-space: normal;
+    width: auto;
+    max-width: none;
+    white-space: nowrap;
   }
 
+  /* Contact controls go before the section anchors on narrow screens. */
   .contact-list {
+    order: -1;
     flex-wrap: wrap;
     width: auto;
     justify-content: center;

@@ -1,5 +1,5 @@
 export const program_16to16 = 
-`// Converts 16-bit fixed point to 16-bit IEEE standard
+`// Converts signed 16-bit fixed point to 16-bit IEEE standard
 // Written in assembly for Freaky Gojo CPU
 //
 // IMPORTANT: ALL R-TYPE INSTRUCTIONS STORE OUTPUT INTO R7
@@ -9,13 +9,13 @@ export const program_16to16 =
 // replaced with immediate literals
 // Original label is comment
 
-// MSW . LSW => s_eeeee_mmmmmmmmmm
+// MSW . LSW => seee_eemm mmmm_mmmm
 // Input:
 //      LSW is put in memory[0]
 //      MSW is put in memory[1]
 #load 0x01 0x81 // macro hard codes
 #load 0x00 0xff // memory[lhs] = rhs
-// Result:
+// Output:
 //      LSW put in memory[2]
 //      MSW put in memory[3]
 
