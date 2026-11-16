@@ -7,33 +7,44 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header with Name and Contact Links -->
+  <!-- Header: Row 1 = name + portfolio links (right); Row 2 = section nav (left) + email controls (right) -->
   <header class="header-section">
     <div class="name-container">
-      <h1>Kristopher Manalo</h1>
 
-      <div class="contact-links">
-        <a href="https://github.com/KristopherManalo"
-          class="portfolio-link">GitHub</a>
-        <a href="https://www.linkedin.com/in/kristopher-manalo/"
-          class="portfolio-link">LinkedIn</a>
-        <!--<a href="#" class="portfolio-link">Twitter / X</a> -->
-        <a href="resumes/2026-09-14.pdf"
-          class="portfolio-link">Resume/CV</a>
-        <a href="#"
-          class="portfolio-link">Archive</a>
+      <!-- Row 1: name on the left, portfolio links aligned right -->
+      <div class="header-row">
+        <h1 class="header-name">Kristopher Manalo</h1>
+        <div class="contact-links">
+          <a href="https://github.com/KristopherManalo"
+            class="portfolio-link">GitHub</a>
+          <a href="https://www.linkedin.com/in/kristopher-manalo/"
+            class="portfolio-link">LinkedIn</a>
+          <!--<a href="#" class="portfolio-link">Twitter / X</a> -->
+          <a href="resumes/2026-09-14.pdf"
+            class="portfolio-link">Resume/CV</a>
+          <a href="#"
+            class="portfolio-link">Archive</a>
+        </div>
       </div>
 
-      <div class="contact-list">
-        <a href="mailto:kristophermmanalo@gmail.com"
-          class="contact-email">
-          kristophermmanalo@gmail.com
-        </a>
-        <button id="alternativeContactBtn"
-          class="contact-button alternative">
-           Alternative Contact
-        </button>
+      <!-- Row 2: section navigation on the left, email controls aligned right -->
+      <div class="header-row">
+        <nav class="header-nav" aria-label="Section navigation">
+          <a href="#simulator" class="nav-link">Simulator</a>
+          <a href="#projects" class="nav-link">Projects</a>
+        </nav>
+        <div class="contact-list">
+          <a href="mailto:kristophermmanalo@gmail.com"
+            class="contact-email">
+            kristophermmanalo@gmail.com
+          </a>
+          <button id="alternativeContactBtn"
+            class="contact-button alternative">
+            Contact 
+          </button>
+        </div>
       </div>
+
     </div>
   </header>
 
@@ -43,7 +54,7 @@
       aria-modal="true" aria-labelledby="alternativeContactTitle">
       <div class="contact-modal-header">
         <span id="alternativeContactTitle"
-          class="contact-modal-title">Alternative Contact</span>
+          class="contact-modal-title">Message Me Directly</span>
         <button type="button" id="contactModalClose"
           class="contact-modal-close" aria-label="Close dialog">✕</button>
       </div>
@@ -98,7 +109,7 @@
   </div>
 
   <!-- Main Content Area -->
-  <div class="main-content">
+  <div class="main-content" id="simulator">
 
     <!-- Left Sidebar - Info & Skills -->
     <aside class="info-sidebar">
@@ -416,7 +427,7 @@
   </div>
 
   <!-- Expandable Cards -->
-  <section class="projects-section">
+  <section class="projects-section" id="projects">
     <h2>Projects</h2>
     <div class="cards-grid">
       <article class="project-card">

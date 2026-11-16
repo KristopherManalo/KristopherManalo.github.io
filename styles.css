@@ -33,6 +33,11 @@
   scrollbar-gutter: stable;
 }
 
+/* Anchor links (the header's Simulator / Projects nav) scroll smoothly. */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Inconsolata', 'Courier New', monospace;
   color: #e0e0e0;
@@ -43,7 +48,9 @@ body {
 }
 
 /* ============================================================
-   1. Header — name, contact links, email
+   1. Header — two rows:
+        Row 1: name (left) + portfolio links (right)
+        Row 2: section nav (left) + email controls (right)
    ============================================================ */
 .header-section {
   max-width: 1400px;
@@ -51,25 +58,42 @@ body {
   display: block;
 }
 
+/* Stack the two header rows; full width, modest vertical gap between them. */
 .name-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  width: 100%;
+  gap: 6px;
 }
 
-.header-section h1 {
-  font-size: 2rem;
-  margin: 0 0 4px 0;
-  color: #ffffff;
-}
-
-.contact-links {
+/* Each row spans the full width; the left group sits on the left, the
+   right group is pushed to the right (this is the "distance" + right align). */
+.header-row {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-section .header-name {
+  font-size: 1.6rem;
+  margin: 0;
+  color: #ffffff;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+/* Right-side groups on both rows (portfolio links / email controls). */
+.contact-links,
+.contact-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Row 1 portfolio links wrap onto their own line when the row gets tight. */
+.contact-links {
   flex-wrap: wrap;
-  margin-bottom: 2px;
 }
 
 .portfolio-link {
@@ -77,19 +101,37 @@ body {
   text-decoration: none;
   padding: 8px 16px;
   font-size: 0.9rem;
-  transition: none;
 }
 
 .portfolio-link:hover {
   color: #ffffff;
 }
 
-.contact-list {
+/* Row 2 section navigation (left): links separated by the "distance" gap. */
+.header-nav {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 20px;
+  padding-left: 8px;
+}
+
+.nav-link {
+  color: #a0a0a0;
+  text-decoration: none;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+.contact-email {
+  color: #888888;
+  text-decoration: none;
+  padding: 8px 18px;
+  font-size: 1.05rem;
+  white-space: nowrap;
 }
 
 .contact-email {
@@ -112,20 +154,34 @@ body {
 .contact-button {
   background-color: transparent;
   color: #a0a0a0;
-  border: 1px dashed #444444;
+  /* border: 1px dashed #444444; */
+  border: none;
   padding: 8px 18px;
+  margin-right: 10px;
   font-size: 0.9rem;
   cursor: not-allowed;
   font-family: inherit;
   white-space: nowrap;
 }
 
+/* Primary "Send Message" CTA — uses the page's slate-blue, border slightly lighter so it stands out a touch over the email link. */
 .contact-button.alternative {
   cursor: pointer;
+  background-color: #3a3a5c;
+  color: #e8e8f0;
+  border: 1px solid #4d4d6e;
+  font-weight: 600;
 }
 
 .contact-button.alternative:hover {
+  background-color: #45456b;
+  border-color: #5b5b82;
   color: #ffffff;
+}
+
+.contact-button.alternative:focus-visible {
+  outline: 2px solid #4d4d6e;
+  outline-offset: 2px;
 }
 
 /* ============================================================
@@ -1029,21 +1085,33 @@ body {
     font-size: 1.4rem;
   }
 
-  .contact-links {
+  /* On narrow screens, stack each row into a column so the links sit back
+     below the name (and email controls below the nav). */
+  .header-row {
     flex-direction: column;
     align-items: center;
+    text-align: center;
+  }
+
+  .contact-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     gap: 8px;
   }
 
   .portfolio-link {
     text-align: center;
-    width: 100%;
-    max-width: 260px;
-    white-space: normal;
+    width: auto;
+    max-width: none;
+    white-space: nowrap;
   }
 
+  /* Contact controls go before the section anchors on narrow screens. */
   .contact-list {
+    order: -1;
     flex-wrap: wrap;
     width: auto;
     justify-content: center;
