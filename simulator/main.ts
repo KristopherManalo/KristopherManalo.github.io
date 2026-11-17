@@ -300,7 +300,7 @@ async function step_through() {
     lineNumber: sourceLine,
     column: 1,
   });
-  console.log(affected_register);
+  if (import.meta.env.DEV) console.log(affected_register);
   highlight_register(affected_register);
   editor.revealLineInCenter(sourceLine);
   update_registers_view(core);
@@ -347,7 +347,7 @@ function highlight_register(num: number) {
   }
 
   if (num < 0 || num > 7) {
-    console.warn("invalid register highlight attempt");
+    if (import.meta.env.DEV) console.warn("invalid register highlight attempt");
     return;
   }
 
