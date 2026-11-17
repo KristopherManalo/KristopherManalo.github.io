@@ -13,7 +13,20 @@ function directoryIndexPlugin(targetSubDir = ""): Plugin {
 
     return `<!DOCTYPE html>
 <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>/${targetSubDir}</title>
+        <script src="../components/header-section.js" defer></script>
+        <link rel="stylesheet" href="/components/header-section.css">
+        <link rel="stylesheet" href="/misc/styles.css">
+        <style>
+            body {
+                background-color: black;
+            }
+        </style>
+    </head>
     <body>
+        <rmd-header></rmd-header>
         <h1>Index of /${targetSubDir}</ht1>
         <ul>${links}</ul>
     </body>
@@ -25,6 +38,7 @@ function directoryIndexPlugin(targetSubDir = ""): Plugin {
 
         // dev: serves generated html for /[targetSubDir]
         configureServer(server) {
+            console.log(`Created index.html for ${targetSubDir}`);
             const route = `/${targetSubDir.replace(/^\/|\/$/g, "")}`;
             server.middlewares.use((req, res, next) => {
                 const url = req.url?.split("?")[0];
