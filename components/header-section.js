@@ -17,8 +17,14 @@
    ============================================================ */
 
 class HeaderSection extends HTMLElement {
-  connectedCallback() {
+  async connectedCallback() {
     this.setAttribute("role", "banner");
+
+    const links = JSON.parse(this.getAttribute("links") || "[]");
+    const navLinks = links.map(([name, url]) => `
+      <a href="${url}" class="nav-link">${name}</a>
+    `).join("");
+
     this.innerHTML = `
       <header class="header-section">
         <div class="name-container">
@@ -46,8 +52,7 @@ class HeaderSection extends HTMLElement {
           <!-- Row 2: section navigation on the left, email controls aligned right -->
           <div class="header-row">
             <nav class="header-nav" aria-label="Section navigation">
-              <a href="#simulator" class="nav-link">Simulator</a>
-              <a href="#projects" class="nav-link">Projects</a>
+              ${navLinks}
             </nav>
             <div class="contact-list">
               <a href="mailto:kristophermmanalo@gmail.com"
@@ -124,6 +129,10 @@ class HeaderSection extends HTMLElement {
         </div>
       </div>
     `;
+
+    const { initializeContact } = await import("/scripts/alternative-contact.js");
+
+    initializeContact(this);
   }
 }
 

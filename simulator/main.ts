@@ -55,8 +55,11 @@ const editor = monaco.editor.create(container, {
   lineNumbers: "on",
   scrollBeyondLastLine: true,
   wordWrap: "on",
-  fixedOverflowWidgets: true
+  fixedOverflowWidgets: true,
+  overviewRulerLanes: 0,
+  hideCursorInOverviewRuler: true,
 });
+
 
 monaco.editor.setTheme("FGAtheme");
 

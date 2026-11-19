@@ -3,19 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style src="style.css"></style>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/components/header-section.css">
     <title>Simulator</title>
   </head>
   <body>
+    <script type="module" src="/components/header-section.js"></script>
+    <rmd-header></rmd-header>
     <main class="simulator">
-      <header>
-        <h1>FG Playground</h1>
-        <p>Explore my custom ISA</p>
-      </header>
 
-      <div id="editor">
-      </div>
-      <script type="module" src="./main.ts"></script>
+      <script type="module" src="/components/editor.js"></script>
+      <editor-whole></editor-whole>
     </main>
   </body>
 </html>

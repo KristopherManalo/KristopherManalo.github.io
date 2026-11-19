@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kristopher Manalo - Portfolio</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="./components/header-section.css">
+  <link rel="stylesheet" href="/components/header-section.css">
 </head>
 <body>
   <!-- Header: rendered by <rmd-header> (components/header-section.js); styles from components/header-section.css -->
-  <script type="module" src="./components/header-section.js"></script>
-  <rmd-header></rmd-header>
+  <script type="module" src="/components/header-section.js"></script>
+  <rmd-header 
+    links='[["Simulator","#simulator"],
+    ["Projects","#projects"]]'>
+  </rmd-header>
 
   <!-- Main Content Area -->
   <div class="main-content" id="simulator">
@@ -266,23 +269,6 @@
             <li value="0x00">R7: 0x00</li>
           </ul>
         </div>
-        <!-- <div class="memory">
-          <label for="memory-select" class="reg-label">Memory</label>
-          <input 
-            id="memory-select" 
-            class="register-select memory-select"
-            type="text"
-            aria-label="Memory address"
-          />
-          <label class="reg-label">Value</label>
-          <input
-            id="memory-value"
-            class="register-select memory-value-input"
-            type="text"
-            value="0000 0000"
-            aria-label="Memory value"
-          />
-        </div> -->
       </div>
         <div class="memory-menu">
           <button
@@ -316,7 +302,7 @@
           </div>
         </div>
       <script type="module">
-        import './simulator/main.ts';
+        import '/simulator/main.ts';
       </script>
       <p style="color: #a0a0a0; font-size: 9.1px;">
         *Assemble is a misnomer, the amount of pre-processing and code generation
@@ -506,8 +492,6 @@
   <!-- Expandable project cards -->
   <script src="scripts/cards.js" defer></script>
 
-  <!-- Alternative Contact modal -->
-  <script src="scripts/alternative-contact.js" defer></script>
 
 </body>
 </html>

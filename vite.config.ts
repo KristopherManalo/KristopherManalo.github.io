@@ -18,6 +18,7 @@ function directoryIndexPlugin(targetSubDir = ""): Plugin {
         <title>/${targetSubDir}</title>
         <script src="../components/header-section.js" defer></script>
         <link rel="stylesheet" href="/components/header-section.css">
+        <link rel="stylesheet" href="/styles.css">
         <link rel="stylesheet" href="/misc/styles.css">
         <style>
             body {

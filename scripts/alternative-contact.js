@@ -1,10 +1,16 @@
 // Alternative Contact modal (see scripts/alternative-contact.js)
-document.addEventListener('DOMContentLoaded', function () {
-  const overlay = document.getElementById('alternativeContactModal');
-  const form = document.getElementById('alternativeContactForm');
-  const openBtn = document.getElementById('alternativeContactBtn');
-  const closeBtn = document.getElementById('contactModalClose');
-  const cancelBtn = document.getElementById('contactModalCancel');
+// document.addEventListener('DOMContentLoaded', function () {
+export function initializeContact(header) {
+  const overlay = header.querySelector('#alternativeContactModal');
+  const form = header.querySelector('#alternativeContactForm');
+  const openBtn = header.querySelector('#alternativeContactBtn');
+  const closeBtn = header.querySelector('#contactModalClose');
+  const cancelBtn = header.querySelector('#contactModalCancel');
+  // const overlay = document.getElementById('alternativeContactModal');
+  // const form = document.getElementById('alternativeContactForm');
+  // const openBtn = document.getElementById('alternativeContactBtn');
+  // const closeBtn = document.getElementById('contactModalClose');
+  // const cancelBtn = document.getElementById('contactModalCancel');
 
   const CONTACT_API = "https://gvpckykxjkxzduhfedh5gxrf6u0xyhss.lambda-url.us-east-2.on.aws/";
 
@@ -87,4 +93,5 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.disabled = false;
     }
   });
-});
+// });
+};
